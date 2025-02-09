@@ -1,0 +1,107 @@
+.show-container {
+    width: 100%;
+    /* コンテナの幅を画面いっぱいに広げる */
+    max-width: none;
+    /* 最大幅の制限を解除 */
+    margin: 40px 0;
+    /* 上下のマージンを保持しつつ、左右のマージンを0に */
+    padding: 20px;
+    /* 内側の余白を保持 */
+    background: #fff;
+    text-align: center;
+    box-sizing: border-box;
+    /* パディングを含めた幅で計算 */
+}
+
+.show-profile-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.show-profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.show-username {
+    font-size: 24px;
+    color: #333;
+    margin-right: 100px;
+    /* このマージンは調整可能 */
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.show-edit-profile-button {
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #f00;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 2px solid #f00;
+    font-weight: bold;
+}
+
+.show-items-container {
+    display: flex;
+    justify-content: flex-start;
+    /* 左寄せに変更 */
+    align-items: center;
+    /* 垂直方向も中央寄せ */
+    margin: 30px auto 0px;
+    max-width: 800px;
+    /* コンテナの最大幅を広げる */
+    padding-left: 5%;
+    /* 左側に余白を少なめに設定 */
+    padding-right: 0;
+    /* 右側のパディングを削除 */
+}
+
+.show-list-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #666;
+    padding: 10px;
+    margin: 0 20px;
+    /* タイトル間のスペースを調整 */
+    white-space: nowrap;
+    /* 折り返しを防ぐ */
+    cursor: pointer;
+    /* クリック可能であることを示す */
+}
+
+.show-divider-fullwidth {
+    width: calc(100% + 40px);
+    /* コンテナの幅よりも少し広くする */
+    height: 2px;
+    background-color: #000;
+    margin: -10px -20px;
+    /* コンテナのパディングを打ち消すマイナスマージンを適用 */
+}
+
+.show-items-container .show-list-title {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 2px solid transparent;
+    /* アクティブでない時の透明のボーダー */
+}
+
+.show-items-container .show-list-title.active {
+    color: red;
+    /* アクティブなタブの色 */
+    border-bottom: 2px solid red;
+    /* アクティブなタブの下線 */
+}
+
+.show-items-list {
+    padding: 20px;
+}
+
+.show-active {
+    color: red;
+    /* 赤色に設定 */
+}
