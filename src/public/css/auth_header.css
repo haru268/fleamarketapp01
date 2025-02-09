@@ -1,0 +1,27 @@
+header {
+    background: black;
+
+    display: flex;
+    /* Flexbox レイアウトを有効化 */
+    align-items: center;
+    /* 要素を垂直方向の中央に配置 */
+    justify-content: flex-start;
+    /* 要素を水平方向の左端に配置 */
+    padding: 10px 20px;
+    /* 上下に10px、左右に20pxのパディングを追加 */
+    width: 100%;
+    /* ヘッダーの幅を画面全体に広げる */
+
+
+}
+
+header img {
+    height: 40px;
+    margin-right: 480px;
+}
+
+body {
+    margin: 0 !important;
+    overflow-x: hidden;
+    /* 水平方向のスクロールバーを非表示にする */
+}

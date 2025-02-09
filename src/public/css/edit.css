@@ -1,0 +1,89 @@
+.edit-container {
+    padding: 30px;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 500px;
+    font-size: 1.2rem;
+}
+
+.edit-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.edit-label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.edit-input,
+.edit-button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    border: 1px solid black;
+}
+
+.edit-input[type="file"] {
+    color: red;
+    border: 2px solid red;
+    cursor: pointer;
+}
+
+.edit-input[type="file"]:hover {
+    background-color: #ffebeb;
+}
+
+.edit-file-placeholder {
+    display: none !important;
+}
+
+.file-input-label {
+    display: inline-block;
+    padding: 8px 20px;
+    color: red;
+    border: 2px solid red;
+    cursor: pointer;
+    padding: 12px 24px;
+    background-color: white;
+    border-radius: 8px;
+    margin-left: 30px;
+    font-size: 16px;
+}
+
+.edit-profile-image-container {
+    display: flex;
+    align-items: center;
+    /* 画像とボタンを垂直中央揃えに */
+    margin-bottom: 20px;
+    /* 下に余白を設ける */
+}
+
+.edit-profile-image {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-color: #d9d9d9;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 20px;
+    pointer-events: none;
+}
+
+.edit-button {
+    display: block;
+    width: 105%;
+    background-color: #ff5555;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+    margin-top: 19px;
+}
+
+.edit-button:hover {
+    background-color: #e55347;
+}

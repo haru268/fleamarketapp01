@@ -1,0 +1,29 @@
+/* public/css/index.css */
+
+.index-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.index-product-card {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.index-product-image {
+    width: 100%;
+    height: 200px;
+    background-color: #ccc;
+}
+
+.index-product-name {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+.index-product-price {
+    font-size: 16px;
+    color: #333;
+}

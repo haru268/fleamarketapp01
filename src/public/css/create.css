@@ -1,0 +1,296 @@
+.create-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+}
+
+.create-title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 40px;
+}
+
+.create-form-group {
+    margin-bottom: 40px;
+}
+
+.create-detail-title {
+    font-size: 30px;
+    /* タイトルのフォントサイズ */
+    font-weight: bold;
+    /* タイトルのフォントを太くする */
+    margin-bottom: 5px;
+    /* タイトルと下の線の間の余白 */
+    color: #818181;
+}
+
+.create-detail-line {
+    width: 100%;
+    /* 線の幅を要素の全幅に */
+    height: 2px;
+    /* 線の高さ */
+    background-color: #818181;
+    /* 線の色 */
+    margin-top: -5px;
+    margin-bottom: 30px;
+    /* 線と次の要素の間の余白 */
+}
+
+.create-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    /* ラベルを太字に */
+}
+
+.create-category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.create-category-button {
+    background-color: #fff;
+    border: 2px solid #f00;
+    color: #f00;
+    padding: 3px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-block;
+    text-align: center;
+    margin: 5px;
+    /* 余白を追加 */
+}
+
+.create-category-button input[type="checkbox"] {
+    display: none;
+}
+
+.create-category-button span {
+    display: block;
+    width: 100%;
+    color: #f00;
+    padding: 3px 0;
+}
+
+.create-category-button input[type="checkbox"]:checked+span {
+    background-color: #f00;
+    color: #fff;
+    display: block;
+}
+
+.create-category-button input[type="checkbox"]:checked+label {
+    background-color: red;
+    /* 選択時の背景色 */
+    color: white;
+    /* 選択時の文字色 */
+    border-color: red;
+    /* 選択時の境界線の色 */
+}
+
+.create-category-button:hover {
+    background-color: #f8f8f8;
+    /* ホバー時の背景色 */
+}
+
+.create-input,
+.create-select,
+.create-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.create-input {
+    width: 97%;
+    /* 幅を100%に設定 */
+    padding: 12px 10px;
+    /* 上下のパディングを12px、左右を10pxに調整 */
+    border: 1px solid;
+    /* 境界線を濃いグレー色に変更し、太さも2pxに */
+    border-radius: 5px;
+}
+
+.create-file-upload-container {
+    border: 1px dashed #ccc;
+    /* 点線を細く */
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.create-file-upload-container input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.create-file-upload-btn {
+    display: inline-block;
+    background-color: #fff;
+    color: #f00;
+    padding: 8px 20px;
+    border: 2px solid #f00;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0;
+}
+
+.create-file-upload-btn:hover {
+    background-color: #fff;
+    color: #d00;
+}
+
+.create-button {
+    margin-top: 30px;
+    width: 100%;
+    padding: 10px;
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.create-button:hover {
+    background-color: #f00;
+}
+
+/* セレクトボックスの矢印をカスタマイズ */
+.create-select {
+    -webkit-appearance: none;
+    /* Chrome, Safariでの既定のドロップダウン矢印を消す */
+    -moz-appearance: none;
+    /* Firefoxでの既定のドロップダウン矢印を消す */
+    appearance: none;
+    /* 標準のドロップダウン矢印を消す */
+    padding-right: 30px;
+    /* テキストがアイコンに重ならないように右パディングを追加 */
+    position: relative;
+    /* 親要素を相対位置に */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px 10px;
+    color: #333;
+    font-size: 16px;
+    height: 40px;
+}
+
+.create-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 30px;
+    position: relative;
+    background-color: #fff;
+    border: 1px solid;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px 10px;
+    color: #333;
+    font-size: 16px;
+    height: 40px;
+}
+
+.create-select-container::after {
+    content: "▼";
+    position: absolute;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    font-size: 16px;
+    color: #333;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.create-select:hover,
+.create-select:focus {
+    background-color: #636769;
+    /* ホバーとフォーカス時の背景色 */
+    color: #fff;
+    /* ホバーとフォーカス時の文字色 */
+}
+
+.create-select-container {
+    position: relative;
+}
+
+.create-section-info .create-detail-title {
+    font-size: 30px;
+    /* タイトルのフォントサイズ */
+    font-weight: bold;
+    /* タイトルのフォントを太くする */
+    margin-bottom: 5px;
+    /* タイトルと下の線の間の余白 */
+    color: #818181;
+    /* タイトルの文字色 */
+}
+
+.create-section-info .create-detail-line {
+    width: 100%;
+    /* 線の幅を要素の全幅に */
+    height: 2px;
+    /* 線の高さ */
+    background-color: #818181;
+    /* 線の色 */
+    margin-bottom: 30px;
+    /* 線と次の要素の間の余白 */
+
+}
+
+.create-textarea {
+    width: 97%;
+    /* 幅をコンテナに合わせて100% */
+    height: 80px;
+    /* 高さを150ピクセルに固定 */
+    padding: 10px;
+    /* パディングでテキスト入力エリアの余白を設定 */
+    border: 1px solid;
+    /* 境界線のスタイル */
+    border-radius: 5px;
+    /* 角の丸みを設定 */
+    resize: none;
+    /* ユーザーによるリサイズを無効にする */
+}
+
+.create-input-group {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.create-price-prefix {
+    position: absolute;
+    left: 10px;
+    color: #333;
+}
+
+.create-price-input {
+    width: 100%;
+    padding: 10px;
+    padding-left: 30px;
+    /* Enough space for ¥ symbol */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.create-price-input:focus {
+    outline: none;
+}
