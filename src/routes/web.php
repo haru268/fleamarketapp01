@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;  // この行を追加
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -40,3 +41,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::post('/exhibition/store', [ExhibitionController::class, 'store'])->name('exhibition.store')->middleware('auth');
+

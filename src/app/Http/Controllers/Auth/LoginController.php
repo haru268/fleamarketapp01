@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth; // これを追加
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest; 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
+
 
 class LoginController extends Controller
 {
@@ -13,13 +14,11 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function login(LoginRequest $request) 
+    public function login(LoginRequest $request)
     {
-        
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->intended('/'); 
+            return redirect()->intended('/');
         }
-
 
         return back()->withErrors([
             'login' => 'ログイン情報が登録されていません',

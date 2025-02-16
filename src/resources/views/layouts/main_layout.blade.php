@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/edit.css') }}">
     <link rel="stylesheet" href="{{ asset('css/create.css') }}">
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 </head>
 <body>
     <header class="main-header">
@@ -28,5 +29,6 @@
     <main class="main-content">
         @yield('content')
     </main>
+    @yield('scripts')
 </body>
 </html>
