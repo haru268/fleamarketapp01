@@ -105,3 +105,29 @@
     color: red;
     /* 赤色に設定 */
 }
+
+/* 商品一覧全体のレイアウト */
+#show-exhibited-items {
+    margin-top: 20px;
+    /* 少し下に下げる */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 横4列 */
+    gap: 20px;
+    /* 各アイテム間のスペース */
+    justify-items: center;
+}
+
+/* 各商品アイテムのスタイル（必要なら） */
+.show-product-item {
+    text-align: center;
+}
+
+/* 商品画像のスタイルを大きくする */
+.show-product-image {
+    width: 250px;
+    /* 少し大きめに設定 */
+    height: 250px;
+    /* 正方形に */
+    object-fit: cover;
+}

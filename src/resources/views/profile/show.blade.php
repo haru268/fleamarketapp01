@@ -17,11 +17,11 @@
     <div class="show-divider-fullwidth"></div> <!-- 黒い線を追加 -->
 
     <!-- 出品した商品のリストを表示 -->
-    <div id="show-exhibited-items" style="display: block;">
+    <div id="show-exhibited-items">
         @forelse ($user->exhibitedProducts as $product)
-            <div class="product-item">
-                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product-image">
-                <p class="product-name">{{ $product->name }}</p>
+            <div class="show-product-item">
+                <img src="{{ $product->image }}" alt="{{ $product->name }}" class="show-product-image">
+                <p class="show-product-name">{{ $product->name }}</p>
             </div>
         @empty
             <p>出品した商品はまだありません。</p>

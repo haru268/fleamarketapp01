@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPriceToProductsTable extends Migration
+class AddAddressAndBuildingToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddPriceToProductsTable extends Migration
      */
     public function up()
     {
-        Schema::table('products', function (Blueprint $table) {
-            // 「after('description')」の指定は不要なら削除してもOKです
-            $table->decimal('price', 10, 2);
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('address')->nullable()->after('postal_code');
+            $table->string('building')->nullable()->after('address');
         });
     }
 
@@ -26,8 +26,8 @@ class AddPriceToProductsTable extends Migration
      */
     public function down()
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn('price');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['address', 'building']);
         });
     }
 }
