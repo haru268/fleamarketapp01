@@ -1,0 +1,61 @@
+.address-container {
+    max-width: 600px;
+    margin: 40px auto;
+    /* 上下40px、左右autoで中央寄せ */
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.address-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.address-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.address-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.address-button {
+    padding: 12px 24px;
+    background-color: #e60012;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    align-self: flex-start;
+    /* 左寄せ */
+}
+
+.address-button:hover {
+    background-color: #c4000f;
+}

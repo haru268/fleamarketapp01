@@ -1,75 +1,71 @@
-/* public/css/index.css */
-
+/* 全体コンテナ */
 .index-container {
     padding: 20px;
     background-color: #fff;
-    /* 背景色を白に設定 */
 }
 
 /* タブコンテナ */
 .index-tab-container {
     text-align: left;
-    /* テキストを左寄せに変更 */
     margin-bottom: 5px;
-    /* 線との間隔を縮める */
     padding-left: 100px;
-    /* テキストを右に30px動かす */
 }
 
 .index-tab-button {
     display: inline;
-    /* ボタンではなく、インラインテキストとして扱う */
     margin-right: 20px;
-    /* 右のマージン */
     padding-bottom: 5px;
-    /* 下線との間隔を縮める */
     cursor: pointer;
     font-size: 20px;
     font-weight: bold;
-    /* フォントを太字に */
     background: none;
-    /* 背景色を消す */
     border: none;
-    /* ボーダーを消す */
     color: #666;
     text-decoration: none;
-    /* テキストデコレーションを消す */
 }
 
 .index-tab-button.active {
     color: red;
     text-decoration: none;
-    /* アクティブなタブの下線を削除 */
 }
 
+/* 全幅の区切り線 */
 .index-divider-fullwidth {
     width: calc(100% + 40px);
-    /* 全幅よりも少し広くして、コンテナのパディングを打ち消す */
     height: 2px;
     background-color: #000;
-    margin: 0 -20px;
-    /* コンテナの左右のパディングを打ち消すマイナスマージン */
-    margin-bottom: 20px;
+    margin: 0 -20px 20px -20px;
+}
+
+/* 横4列のグリッドレイアウト（固定4列、中央寄せ、横スクロールなし） */
+.index-recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 250px);
+    gap: 5vw;
+    /* 画面幅の5%の隙間 */
+    justify-content: center;
+    overflow-x: hidden;
 }
 
 /* 商品カード */
 .index-product-card {
-    border: 1px solid #ddd;
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 8px;
+    border: none;
     background-color: #fff;
-    position: relative;
+    overflow: hidden;
+    text-align: center;
 }
 
+/* 画像コンテナ：固定サイズ250px×250px の正方形 */
 .index-product-image-container {
     position: relative;
-    width: 100%;
-    height: 200px;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
     overflow: hidden;
     background-color: #ccc;
 }
 
+/* 商品画像：コンテナ全体にフィット */
 .index-product-image {
     width: 100%;
     height: 100%;
@@ -77,15 +73,11 @@
 }
 
 .index-product-name {
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 10px;
 }
 
-.index-product-price {
-    font-size: 16px;
-    color: #333;
-}
-
+/* Sold オーバーレイ */
 .index-sold-overlay {
     position: absolute;
     top: 0;

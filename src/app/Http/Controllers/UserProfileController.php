@@ -44,19 +44,23 @@ class UserProfileController extends Controller
     }
 
     public function show()
-    {
-        $user = Auth::user();
-        if (!$user) {
-            return redirect()->route('login');
-        }
-
-        // 出品した商品を取得
-        $exhibitedProducts = $user->products()->get();
-
-        // ユーザー情報と商品リストをビューに渡す
-        return view('profile.show', [
-            'user' => $user,
-            'exhibitedProducts' => $exhibitedProducts
-        ]);
+{
+    $user = Auth::user();
+    if (!$user) {
+        return redirect()->route('login');
     }
+
+    // 出品した商品
+    $exhibitedProducts = $user->exhibitedProducts;
+
+    // 購入した商品（buyer_id を利用している場合）
+    $purchasedProducts = $user->purchasedProducts()->where('user_id', '<>', $user->id)->get();
+
+    return view('profile.show', [
+        'user' => $user,
+        'exhibitedProducts' => $exhibitedProducts,
+        'purchasedProducts' => $purchasedProducts
+    ]);
+}
+
 }

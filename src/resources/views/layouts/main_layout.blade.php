@@ -9,10 +9,15 @@
     <link rel="stylesheet" href="{{ asset('css/create.css') }}">
     <link rel="stylesheet" href="{{ asset('css/show.css') }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/item.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/address.css') }}">
 </head>
 <body>
     <header class="main-header">
+        <a href="{{ url('/') }}">
         <img src="{{ asset('images/logo.svg') }}" alt="ロゴ" class="main-logo">
+        </a>
         <form action="{{ url('/search') }}" method="GET" class="main-search-form">
             <input type="text" name="query" placeholder="なにをお探しですか？" class="main-search-input">
         </form>

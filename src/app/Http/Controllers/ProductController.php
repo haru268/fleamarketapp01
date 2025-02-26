@@ -6,23 +6,22 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 class ProductController extends Controller
 {
     public function index()
-{
-    // おすすめ商品の条件：自分が出品した商品は除外し、かつ is_recommended が true の商品を取得
-    $recommendedProducts = Product::where('is_recommended', true)
-                                  ->when(Auth::check(), function($query) {
-                                      $query->where('user_id', '<>', Auth::id());
-                                  })
-                                  ->get();
+    {
+        // ログインしている場合、現在のユーザー以外の出品商品を取得
+        // ログインしていなければ、全商品を取得します
+        $otherUsersProducts = Product::when(Auth::check(), function($query) {
+            $query->where('user_id', '<>', Auth::id());
+        })->get();
 
-    // マイリス：ログインユーザーの「いいね」した商品（likedProducts リレーションが定義されている前提）
-    $likedProducts = Auth::check() ? Auth::user()->likedProducts()->get() : collect();
+        // おすすめとして、他のユーザーの商品を表示する
+        $recommendedProducts = $otherUsersProducts;
 
-    return view('products.index', compact('recommendedProducts', 'likedProducts'));
-}
+        // マイリス（いいねした商品）を取得（ログインしている場合）
+        $likedProducts = Auth::check() ? Auth::user()->likedProducts()->get() : collect();
 
-
+        return view('products.index', compact('recommendedProducts', 'likedProducts'));
+    }
 }

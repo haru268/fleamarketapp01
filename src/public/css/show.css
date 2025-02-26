@@ -118,6 +118,17 @@
     justify-items: center;
 }
 
+.show-exhibited-grid {
+    /* 横に並べる: グリッドレイアウト */
+    display: grid !important;
+    /* インラインスタイルを上書きするため !important */
+    grid-template-columns: repeat(4, 1fr);
+    /* 横4列にする例 */
+    gap: 20px;
+    margin-top: 20px;
+    /* 少し下げる */
+}
+
 /* 各商品アイテムのスタイル（必要なら） */
 .show-product-item {
     text-align: center;

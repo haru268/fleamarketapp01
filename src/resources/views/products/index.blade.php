@@ -1,7 +1,6 @@
 @extends('layouts.main_layout')
 
 @section('styles')
-    <!-- index.css を読み込み -->
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 @endsection
 
@@ -14,41 +13,43 @@
     </div>
     <div class="index-divider-fullwidth"></div>
 
-    <!-- おすすめ商品のリスト（全商品表示） -->
-    <div id="index-recommended-section" style="display: block;">
+    <!-- おすすめ商品のリスト -->
+    <div id="index-recommended-section" class="index-recommended-grid" style="display: grid;">
         @if(isset($recommendedProducts) && $recommendedProducts->count() > 0)
             @foreach($recommendedProducts as $product)
                 <div class="index-product-card">
+                    <a href="{{ url('/item/' . $product->id) }}">
                     <div class="index-product-image-container">
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="index-product-image">
+                        <!-- ここでは $product->image をそのまま使用 -->
+                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="index-product-image">
                         @if($product->is_sold)
                             <div class="index-sold-overlay">Sold</div>
                         @endif
                     </div>
+                    </a>
                     <div class="index-product-name">{{ $product->name }}</div>
-                    <div class="index-product-price">{{ $product->price }}円</div>
                 </div>
             @endforeach
         @else
-            <p>現在、おすすめの商品はありません。</p>
+            <p>おすすめの商品はありません。</p>
         @endif
     </div>
 
     <!-- マイリス（いいねした商品のみ表示） -->
-    <div id="index-mylist-section" style="display: none;">
+    <div id="index-mylist-section" class="index-recommended-grid" style="display: none;">
         @if(Auth::check())
             @if(isset($likedProducts) && $likedProducts->count() > 0)
                 @foreach($likedProducts as $product)
                     <div class="index-product-card">
+                        <a href="{{ url('/item/' . $product->id) }}">
                         <div class="index-product-image-container">
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="index-product-image">
-
+                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="index-product-image">
                             @if($product->is_sold)
                                 <div class="index-sold-overlay">Sold</div>
                             @endif
                         </div>
+                        </a>
                         <div class="index-product-name">{{ $product->name }}</div>
-                        <div class="index-product-price">{{ $product->price }}円</div>
                     </div>
                 @endforeach
             @else
@@ -63,13 +64,13 @@
 <script>
 function switchTab(tab) {
     if (tab === 'recommended') {
-        document.getElementById('index-recommended-section').style.display = 'block';
+        document.getElementById('index-recommended-section').style.display = 'grid';
         document.getElementById('index-mylist-section').style.display = 'none';
         document.getElementById('index-tab-recommended').classList.add('active');
         document.getElementById('index-tab-mylist').classList.remove('active');
     } else if (tab === 'mylist') {
         document.getElementById('index-recommended-section').style.display = 'none';
-        document.getElementById('index-mylist-section').style.display = 'block';
+        document.getElementById('index-mylist-section').style.display = 'grid';
         document.getElementById('index-tab-mylist').classList.add('active');
         document.getElementById('index-tab-recommended').classList.remove('active');
     }

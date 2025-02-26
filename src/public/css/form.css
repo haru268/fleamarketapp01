@@ -1,0 +1,133 @@
+/* 購入フォーム全体のコンテナ */
+.form-container {
+    max-width: 600px;
+    /* フォームの最大幅 */
+    margin: 40px auto;
+    /* 上下40pxの余白＋左右自動で中央寄せ */
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* フォームタイトル */
+.form-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* セクションタイトル（例: 支払い方法、配送先など） */
+.form-section-title {
+    font-size: 20px;
+    margin: 20px 0 10px;
+    font-weight: bold;
+    border-left: 5px solid #e60012;
+    padding-left: 10px;
+}
+
+/* フォームのラベル */
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* フォームの入力欄（テキストやセレクトなど） */
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+/* テキストエリアをもう少し高さ大きめに */
+.form-textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+/* ボタン共通 */
+.form-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #e60012;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.form-button:hover {
+    background-color: #c4000f;
+}
+
+/* フォーム内の小さな説明文やエラーメッセージなど */
+.form-text-muted {
+    font-size: 14px;
+    color: #666;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* 支払い方法や配送先などのまとめ部分 */
+.form-summary {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+}
+
+.form-summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.form-summary-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.form-summary-value {
+    color: #555;
+}
+
+/* メディアクエリ例：画面幅が小さい場合 */
+@media (max-width: 480px) {
+    .form-container {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .form-button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.form-change-link {
+    color: blue;
+    /* 青文字にする */
+    text-decoration: underline;
+    /* 下線をつける */
+    cursor: pointer;
+    /* クリックできることを示す */
+    font-size: 16px;
+    margin-top: 5px;
+    display: inline-block;
+    /* 横並びの場合に改行されない */
+}

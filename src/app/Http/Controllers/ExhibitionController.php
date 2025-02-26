@@ -14,31 +14,36 @@ class ExhibitionController extends Controller
     }
 
     public function store(Request $request)
-{
-    $product = new Product;
-    // ログインしているユーザーのIDを設定
-    $product->user_id = auth()->id();  // または auth()->user()->id;
+    {
 
-    $product->name = $request->input('name');
-    $product->description = $request->input('description');
-    $product->price = $request->input('price');
+        dd($request->all());
+        
+        $product = new Product;
+        $product->user_id = auth()->id();
 
-    if ($request->has('categories')) {
-        $product->categories = implode(',', $request->input('categories'));
+        $product->name        = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price       = $request->input('price');
+
+        // 単一カテゴリーはここで（フォームに単一の入力がない場合、この値は null になる）
+        $product->category    = $request->input('category'); 
+
+        // 商品の状態はセレクトボックスから取得（name="condition"）
+        $product->condition   = $request->input('condition');
+
+        // 複数選択可能なカテゴリー（チェックボックス）の処理
+        if ($request->has('categories')) {
+            $product->categories = implode(',', $request->input('categories'));
+        }
+
+        // 画像アップロード
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('images', 'public');
+            $product->image = Storage::disk('public')->url($path);
+        }
+
+        $product->save();
+
+        return redirect()->route('profile.show')->with('success', '商品を出品しました。');
     }
-
-    // ファイルがアップロードされているかを確認
-    if ($request->hasFile('image')) {
-        // ファイルを保存し、パスを取得（public/images ディレクトリに保存）
-        $path = $request->file('image')->store('images', 'public');
-        // Storage ファサードを使って公開URLを取得して保存
-        $product->image = Storage::disk('public')->url($path);
-    }
-
-    $product->save();
-
-    return redirect()->route('profile.show')->with('success', '商品を出品しました。');
-}
-
-
 }

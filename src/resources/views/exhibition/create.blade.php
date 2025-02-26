@@ -13,7 +13,6 @@
             <div class="create-file-upload-container">
                 <label for="image" class="create-file-upload-btn">ファイルを選択</label>
                 <input type="file" id="image" name="image" accept="image/*" required>
-                <!-- ここがプレビュー用の img -->
                 <img id="imagePreview" src="#" alt="" style="max-width: 100%; height: auto; margin-top: 10px;">
             </div>
         </div>
@@ -23,31 +22,20 @@
             <div class="create-detail-line"></div>
         </div>
 
-        <!-- 複数選択可能なカテゴリー（ボタン形式） -->
-<div class="create-form-group">
-    <label class="create-label">カテゴリー選択</label>
-    <div class="create-category-buttons">
-        @foreach(['ファッション', '家電', 'インテリア', 'レディース', 'メンズ', 'コスメ', '本', 'ゲーム', 'スポーツ', 'キッチン', 'ハンドメイド', 'アクセサリー', 'おもちゃ', 'ベビー・キッズ'] as $category)
-            <div class="create-category-button">
-                <!-- チェックボックス（非表示） -->
-                <input 
-                    type="checkbox" 
-                    id="category_{{ strtolower($category) }}" 
-                    name="categories[]" 
-                    value="{{ strtolower($category) }}"
-                >
-                <!-- ラベル全体をボタンに -->
-                <label for="category_{{ strtolower($category) }}">
-                    {{ $category }}
-                </label>
+        <!-- 複数選択可能なカテゴリー（チェックボックス） -->
+        <div class="create-form-group">
+            <label class="create-label">カテゴリー選択</label>
+            <div class="create-category-buttons">
+                @foreach(['ファッション', '家電', 'インテリア', 'レディース', 'メンズ', 'コスメ', '本', 'ゲーム', 'スポーツ', 'キッチン', 'ハンドメイド', 'アクセサリー', 'おもちゃ', 'ベビー・キッズ'] as $cat)
+                    <div class="create-category-button">
+                        <input type="checkbox" id="category_{{ strtolower($cat) }}" name="categories[]" value="{{ strtolower($cat) }}">
+                        <label for="category_{{ strtolower($cat) }}">{{ $cat }}</label>
+                    </div>
+                @endforeach
             </div>
-        @endforeach
-    </div>
-</div>
+        </div>
 
-
-
-        <!-- 商品の状態 -->
+        <!-- 商品の状態（セレクトボックス） -->
         <div class="create-form-group">
             <label for="condition" class="create-label">商品の状態</label>
             <div class="create-select-container">
@@ -101,11 +89,9 @@
 
 @section('scripts')
 <script>
-    // 「image」入力でファイルが選択されたときにプレビューを更新する (純粋なJavaScript版)
     document.getElementById('image').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = function(event) {
             document.getElementById('imagePreview').setAttribute('src', event.target.result);
