@@ -1,6 +1,4 @@
-/* public/css/create.css */
 
-/* --- 既存コード（ほぼそのまま） --- */
 .create-container {
     max-width: 600px;
     margin: 20px auto;
@@ -54,18 +52,18 @@
     gap: 10px;
 }
 
-/* 1つの項目を包むdiv */
+
 .create-category-button {
     display: inline-block;
     margin: 5px;
 }
 
-/* チェックボックスを非表示 */
+
 .create-category-button input[type="checkbox"] {
     display: none;
 }
 
-/* ラベルの通常状態（ボタン風） */
+
 .create-category-button label {
     display: inline-block;
     background-color: #fff;
@@ -78,34 +76,32 @@
     text-align: center;
 }
 
-/* ホバー時（任意で変更可能） */
+
 .create-category-button label:hover {
     background-color: #f8f8f8;
 }
 
-/* チェックされたとき: 枠内全体を赤く、文字を白く */
+
 .create-category-button input[type="checkbox"]:checked+label {
     background-color: #f00;
-    /* 全体赤 */
+
     color: #fff;
-    /* 文字色白 */
+
     border-color: #f00;
-    /* 枠線も赤 */
+
 }
 
-/* もし label 内に <span> があるなら、文字色をさらに上書きしたい場合 */
+
 .create-category-button input[type="checkbox"]:checked+label span {
     color: #fff;
 }
 
-/* ホバー時の背景色 */
+
 .create-category-button:hover {
     background-color: #f8f8f8;
 }
 
-/* ここまでカテゴリーボタン */
 
-/* --- 他の要素のスタイルはそのまま --- */
 .create-input,
 .create-select,
 .create-textarea {
@@ -172,7 +168,7 @@
     background-color: #f00;
 }
 
-/* セレクトボックスの矢印をカスタマイズ */
+
 .create-select {
     -webkit-appearance: none;
     -moz-appearance: none;

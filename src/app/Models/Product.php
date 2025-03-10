@@ -19,4 +19,26 @@ class Product extends Model
         'categories',
         'image',
     ];
+
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+        public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function likedBy($user)
+    {
+        return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'category_id');
+    }
+
 }

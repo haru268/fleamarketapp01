@@ -17,7 +17,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        // 必要に応じて他のカラムを追加
+        'avatar_url',
+        
     ];
 
     protected $hidden = [
@@ -29,21 +30,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // ユーザーが出品した商品のリレーション（hasMany）
+    
     public function exhibitedProducts()
     {
         return $this->hasMany(Product::class);
     }
 
-    // ユーザーが「いいね」した商品のリレーション（多対多）
+    
     public function likedProducts()
     {
         return $this->belongsToMany(Product::class, 'likes', 'user_id', 'product_id');
     }
 
-    // ユーザーが購入した商品のリレーション（buyer_id を利用）
+   
     public function purchasedProducts()
     {
         return $this->hasMany(Product::class, 'buyer_id');
     }
+
+    
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
+
 }

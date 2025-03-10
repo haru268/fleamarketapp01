@@ -4,7 +4,7 @@
 <div class="edit-container">
     <h1 class="edit-title">プロフィール設定</h1>
     
-    <!-- バリデーションエラー表示 -->
+    
     @if ($errors->any())
     <div class="alert alert-danger">
         @foreach ($errors->all() as $error)
@@ -16,7 +16,7 @@
     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="edit-form">
         @csrf
 
-        <!-- プロフィール画像フィールド -->
+        
         <div class="edit-profile-image-container">
             @if(auth()->user()->profile_image)
                 <img id="profile-image-preview" 
@@ -25,17 +25,17 @@
             @else
                 <img id="profile-image-preview" 
                      src="{{ asset('images/default-placeholder.png') }}" 
-                     alt="default profile image" class="edit-profile-image">
+                     alt="" class="edit-profile-image">
             @endif
 
-            <!-- 「画像を選択する」ボタンで input[type="file"] をクリック -->
+            
             <button type="button" 
                     onclick="document.getElementById('edit-profile_image').click();" 
                     class="file-input-label">
                 画像を選択する
             </button>
 
-            <!-- 画像ファイルの input -->
+            
             <input type="file" 
                    id="edit-profile_image" 
                    name="profile_image" 
@@ -44,7 +44,7 @@
                    accept="image/*">
         </div>
 
-        <!-- ユーザー名フィールド -->
+        
         <div class="edit-field">
             <label for="edit-username" class="edit-label">ユーザー名</label>
             <input type="text" 
@@ -54,7 +54,7 @@
                    class="edit-input">
         </div>
 
-        <!-- 郵便番号フィールド -->
+        
         <div class="edit-field">
             <label for="edit-postal_code" class="edit-label">郵便番号</label>
             <input type="text" 
@@ -64,7 +64,7 @@
                    class="edit-input">
         </div>
 
-        <!-- 住所フィールド -->
+        
         <div class="edit-field">
             <label for="edit-address" class="edit-label">住所</label>
             <input type="text" 
@@ -74,7 +74,7 @@
                    class="edit-input">
         </div>
 
-        <!-- 建物名フィールド -->
+        
         <div class="edit-field">
             <label for="edit-building" class="edit-label">建物名</label>
             <input type="text" 
@@ -84,7 +84,7 @@
                    class="edit-input">
         </div>
 
-        <!-- 更新ボタン -->
+        
         <button type="submit" class="edit-button">更新する</button>
     </form>
 </div>
@@ -92,7 +92,7 @@
 
 @section('scripts')
 <script>
-    // 「edit-profile_image」入力でファイルが選択されたときにプレビューを更新する
+    
     document.getElementById('edit-profile_image').addEventListener('change', function(e) {
         console.log('ファイルが選択されました');
         const file = e.target.files[0];

@@ -6,11 +6,31 @@
     justify-content: flex-start;
     padding: 10px 20px;
     width: 100%;
+    flex-wrap: nowrap;
+
+        white-space: nowrap;
+    box-sizing: border-box;
+    
+}
+
+
+.main-header>* {
+    flex-shrink: 1;
+    min-width: 0;
+
 }
 
 .main-logo {
     height: 40px;
     margin-right: 50px;
+}
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .main-logo {
+        width: 160px;
+
+    }
 }
 
 .main-search-form {
@@ -55,6 +75,19 @@
     padding: 5px 10px;
     border-radius: 10px;
     margin-right: 10px;
+}
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .main-nav-link {
+        font-size: 14px;
+
+    }
+
+
+    .exhibit-link {
+        font-size: 14px;
+    }
 }
 
 .main-nav-link.exhibit-link {

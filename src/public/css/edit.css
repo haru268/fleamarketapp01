@@ -56,9 +56,9 @@
 .edit-profile-image-container {
     display: flex;
     align-items: center;
-    /* 画像とボタンを垂直中央揃えに */
+
     margin-bottom: 20px;
-    /* 下に余白を設ける */
+
 }
 
 .edit-profile-image {

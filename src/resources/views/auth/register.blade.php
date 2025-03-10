@@ -17,7 +17,9 @@
         <label class="register-label">
             メールアドレス
             @error('email')
-                <span class="register-error">{{ $message }}</span>
+                @if($message != 'The email has already been taken.')
+                    <span class="register-error">{{ $message }}</span>
+                @endif
             @enderror
         </label>
         <input type="email" name="email" class="register-input" value="{{ old('email') }}">

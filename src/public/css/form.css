@@ -1,133 +1,227 @@
-/* 購入フォーム全体のコンテナ */
-.form-container {
-    max-width: 600px;
-    /* フォームの最大幅 */
-    margin: 40px auto;
-    /* 上下40pxの余白＋左右自動で中央寄せ */
+
+.from-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 60px auto;
     padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    gap: 20px;
     box-sizing: border-box;
+    border: none;
+    background: none;
 }
 
-/* フォームタイトル */
-.form-title {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
+
+.from-left {
+    flex: 0 0 800px;
 }
 
-/* セクションタイトル（例: 支払い方法、配送先など） */
-.form-section-title {
+
+.from-right {
+    margin-left: 50px;
+    width: 300px;
+}
+
+
+.from-image-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.from-product-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.from-image-placeholder {
+    width: 150px;
+    height: 150px;
+    background-color: #ccc;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+.from-info-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.from-product-name {
     font-size: 20px;
-    margin: 20px 0 10px;
     font-weight: bold;
-    border-left: 5px solid #e60012;
-    padding-left: 10px;
+    margin: 0 0 5px;
 }
 
-/* フォームのラベル */
-.form-label {
+.from-product-price {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+}
+
+
+.from-label {
     display: block;
     margin-bottom: 6px;
     font-size: 16px;
     font-weight: bold;
     color: #333;
+    margin-left: 20px;
 }
 
-/* フォームの入力欄（テキストやセレクトなど） */
-.form-input,
-.form-select,
-.form-textarea {
-    width: 100%;
-    padding: 10px;
+
+.from-payment .from-label {
+    margin-top: 20px;
+}
+
+
+.from-section {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 10px 0;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.from-section+.from-section {
+    border-top: none;
+}
+
+
+.from-select-wrapper {
+    position: relative;
+    width: 120px;
+    margin-left: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.from-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: none;
+    padding: 10px 50px;
+    font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: #fff;
     box-sizing: border-box;
+    cursor: pointer;
+}
+
+.from-select:focus {
+    outline: none;
+    border-color: #999;
+}
+
+.from-select option {
+    background-color: #636769;
+    color: #fff;
+    text-align: left;
+    direction: ltr;
+}
+
+
+.from-select-arrow {
+    position: absolute;
+    right: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 14px;
+    color: #333;
+}
+
+
+.from-address-section {
+    position: relative;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.from-address-display {
+    margin: 10px 20px;
     font-size: 16px;
+    color: #333;
+}
+
+
+.from-change-address-button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: none;
+    border: none;
+    color: blue !important;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+.from-summary-box {
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 0;
+    margin-bottom: 20px;
+}
+
+.from-summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
+    text-align: center;
 }
 
-/* テキストエリアをもう少し高さ大きめに */
-.form-textarea {
-    height: 80px;
-    resize: vertical;
+.from-summary-label {
+    margin-right: 10px;
 }
 
-/* ボタン共通 */
-.form-button {
-    display: inline-block;
-    padding: 12px 24px;
+.from-summary-value {
+    margin-left: 10px;
+}
+
+
+.from-summary-divider {
+    border-top: 1px solid black;
+    margin: 15px -20px;
+}
+
+
+.from-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
     background-color: #e60012;
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    cursor: pointer;
     text-align: center;
+    margin-top: 50px;
 }
 
-.form-button:hover {
+.from-button:hover {
     background-color: #c4000f;
 }
 
-/* フォーム内の小さな説明文やエラーメッセージなど */
-.form-text-muted {
-    font-size: 14px;
-    color: #666;
-    margin-top: -10px;
-    margin-bottom: 10px;
-}
 
-/* 支払い方法や配送先などのまとめ部分 */
-.form-summary {
-    border: 1px solid #ddd;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    background-color: #fafafa;
-}
-
-.form-summary-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-}
-
-.form-summary-label {
-    font-weight: bold;
-    color: #333;
-}
-
-.form-summary-value {
-    color: #555;
-}
-
-/* メディアクエリ例：画面幅が小さい場合 */
-@media (max-width: 480px) {
-    .form-container {
-        margin: 20px auto;
-        padding: 15px;
+@media (max-width: 768px) {
+    .from-container {
+        flex-direction: column;
     }
 
-    .form-button {
+    .from-right {
         width: 100%;
-        text-align: center;
     }
-}
-
-.form-change-link {
-    color: blue;
-    /* 青文字にする */
-    text-decoration: underline;
-    /* 下線をつける */
-    cursor: pointer;
-    /* クリックできることを示す */
-    font-size: 16px;
-    margin-top: 5px;
-    display: inline-block;
-    /* 横並びの場合に改行されない */
 }

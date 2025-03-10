@@ -7,16 +7,39 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    // GET /item/{id}
-    public function show(Request $request, $id)
-    {
-        // リクエスト内容を確認したい場合は dd() でダンプ
-        // dd($request->all());
+    
+    public function show($id)
+{
+    $product = Product::findOrFail($id);
+    $comments = $product->comments()->latest()->get(); 
+    $commentCount = $comments->count();
+    $categoriesArray = !empty($product->categories) ? explode(',', $product->categories) : [];
+    
+$product = Product::with('likes')->findOrFail($id);
+return view('products.item', compact('product'));
 
-        // 指定されたIDの商品を取得（見つからなければ404）
+    
+
+    
+    $categoriesArray = [];
+    if (!empty($product->categories)) {
+        $categoriesArray = explode(',', $product->categories);
+    }
+
+    return view('products.item', [
+        'product'       => $product,
+        'categoriesArray' => $categoriesArray,
+        'comments'      => $comments,
+        'commentCount'  => $commentCount,
+    ]);
+}
+
+
+    public function edit($id)
+    {
         $product = Product::findOrFail($id);
-        
-        // 商品詳細ページ (resources/views/products/item.blade.php) を表示
         return view('products.item', compact('product'));
     }
+    
+    
 }

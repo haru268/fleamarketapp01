@@ -19,15 +19,16 @@
         <img src="{{ asset('images/logo.svg') }}" alt="ロゴ" class="main-logo">
         </a>
         <form action="{{ url('/search') }}" method="GET" class="main-search-form">
-            <input type="text" name="query" placeholder="なにをお探しですか？" class="main-search-input">
-        </form>
+    <input type="text" name="query" placeholder="なにをお探しですか？" class="main-search-input" value="{{ request()->query('query') }}">
+</form>
+
         <nav class="main-nav">
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="main-nav-link">ログアウト</a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
             <a href="{{ route('profile.show') }}" class="main-nav-link">マイページ</a>
-            <a href="{{ route('exhibition.create') }}" class="main-nav-link exhibit-link">出品</a>
+            <a href="{{ route('sell') }}" class="main-nav-link exhibit-link">出品</a>
         </nav>
     </header>
 

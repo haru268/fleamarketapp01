@@ -9,11 +9,13 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ExhibitionController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 
-// ホームページ
+
 Route::get('/', [ProductController::class, 'index'])->name('home');
 
-// ユーザー認証関連
+
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -24,23 +26,44 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-// 認証が必要なルート
+
 Route::middleware(['auth'])->group(function () {
-    // プロフィール関連
+    
     Route::get('/mypage/profile', [UserProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [UserProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile', [UserProfileController::class, 'show'])->name('profile.show');
 
-    // 出品関連
-    Route::get('/exhibition', [ExhibitionController::class, 'create'])->name('exhibition')->middleware('auth');
-    Route::get('/exhibition/create', [ExhibitionController::class, 'create'])->name('exhibition.create')->middleware('auth');
+    
+    Route::get('/sell', [ExhibitionController::class, 'create'])->name('sell')->middleware('auth');
     Route::post('/exhibition/store', [ExhibitionController::class, 'store'])->name('exhibition.store')->middleware('auth');
+    Route::get('/sell/{id}', [ExhibitionController::class, 'edit'])->name('sell.edit')->middleware('auth');
+    Route::put('/exhibition/update/{id}', [ExhibitionController::class, 'update'])
+        ->name('exhibition.update')
+        ->middleware('auth');
+
+    Route::post('/comment/store', [CommentController::class, 'store'])->name('comment.store');
+    Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
 });
 
-// 商品詳細
+
 Route::get('/item/{id}', [ItemController::class, 'show'])->name('item.show');
 
-// 購入関連
+
 Route::post('/purchase/{product}', [PurchaseController::class, 'purchase'])->name('purchase');
 Route::get('/purchase/{id}', [PurchaseController::class, 'showPurchaseForm'])->name('purchase.form');
-Route::get('/purchase/address/{id}', [PurchaseController::class, 'showAddressForm'])->name('purchase.address.form');
+
+Route::get('/purchase/address', [PurchaseController::class, 'showAddressForm'])
+    ->name('purchase.address.form');
+
+
+Route::post('/purchase/address', [PurchaseController::class, 'updateAddress'])
+    ->name('purchase.address.update');
+
+
+
+Route::post('/comment', [CommentController::class, 'store'])->name('comment.store');
+
+Route::post('/like/toggle', [LikeController::class, 'toggle'])->name('like.toggle');
+
+Route::get('/search', [ProductController::class, 'index'])->name('home');
+

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Auth; // これを追加
+use Illuminate\Support\Facades\Auth; 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 

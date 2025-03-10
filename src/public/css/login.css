@@ -1,45 +1,45 @@
-/* ログインフォームコンテナ */
+
 .login-form-container {
     display: flex;
     flex-direction: column;
-    /* 子要素を縦に配置 */
+
     align-items: stretch;
-    /* 左揃えに設定 */
+
     padding: 20px;
     margin: 20px auto;
     width: 100%;
     max-width: 500px;
     height: auto;
     font-size: 1.2rem;
-    /* 全体のフォントサイズを拡大 */
+
 }
 
-/* ログインタイトル */
+
 .login-title {
     width: 100%;
-    /* タイトルを全幅に設定 */
+
     text-align: center;
-    /* 中央揃え */
+
     font-weight: bold;
     margin-bottom: 30px;
 }
 
-/* ラベルスタイル */
+
 .login-label {
     display: flex;
     align-items: center;
-    /* ラベルとエラーメッセージを縦方向に中央揃え */
+
     margin-bottom: 5px;
     margin-left: 0;
-    /* 左揃え */
+
 }
 
-/* 入力フィールド */
+
 .login-input {
     width: 300%;
-    /* 親要素に基づいて入力フィールドを広げる */
+
     max-width: 500px;
-    /* 入力フィールドの最大幅 */
+
     padding: 10px;
     font-size: 1.2rem;
     border: 1px solid black;
@@ -47,12 +47,12 @@
     margin-bottom: 20px;
 }
 
-/* ログインボタン */
+
 .login-button {
     width: 350%;
-    /* ボタンを全幅に設定 */
+
     max-width: 520px;
-    /* ボタンの最大幅 */
+
     padding: 10px;
     background-color: #ff5555;
     border: none;
@@ -67,33 +67,33 @@
     background-color: #e55347;
 }
 
-/* エラーメッセージ */
+
 .login-error {
     color: red;
     font-size: 20px;
     margin-left: 10px;
-    /* ラベルとエラーメッセージの間に余白を追加 */
+
     white-space: nowrap;
-    /* 折り返しを防止 */
+
 
 }
 
 
 
-/* 会員登録リンク */
+
 .login-link {
     margin-top: 15px;
     color: #007bff;
     text-align: center;
     text-decoration: none;
     display: block;
-    /* ブロック要素に設定 */
+
     text-align: center;
-    /* 中央揃え */
+
     margin-top: 10px;
-    /* リンクのみの上マージン */
+
     transform: none;
-    /* 以前のtranslateXを取り除く */
+
 }
 
 .login-link:hover {

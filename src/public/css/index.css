@@ -1,10 +1,10 @@
-/* 全体コンテナ */
+
 .index-container {
     padding: 20px;
     background-color: #fff;
 }
 
-/* タブコンテナ */
+
 .index-tab-container {
     text-align: left;
     margin-bottom: 5px;
@@ -29,7 +29,7 @@
     text-decoration: none;
 }
 
-/* 全幅の区切り線 */
+
 .index-divider-fullwidth {
     width: calc(100% + 40px);
     height: 2px;
@@ -37,25 +37,26 @@
     margin: 0 -20px 20px -20px;
 }
 
-/* 横4列のグリッドレイアウト（固定4列、中央寄せ、横スクロールなし） */
 .index-recommended-grid {
     display: grid;
-    grid-template-columns: repeat(4, 250px);
-    gap: 5vw;
-    /* 画面幅の5%の隙間 */
-    justify-content: center;
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+
+    justify-items: center;
+
     overflow-x: hidden;
+    margin-top: 20px;
 }
 
-/* 商品カード */
+
 .index-product-card {
     border: none;
     background-color: #fff;
-    overflow: hidden;
     text-align: center;
 }
 
-/* 画像コンテナ：固定サイズ250px×250px の正方形 */
+
 .index-product-image-container {
     position: relative;
     width: 250px;
@@ -65,7 +66,7 @@
     background-color: #ccc;
 }
 
-/* 商品画像：コンテナ全体にフィット */
+
 .index-product-image {
     width: 100%;
     height: 100%;
@@ -77,7 +78,13 @@
     margin-top: 10px;
 }
 
-/* Sold オーバーレイ */
+.index-product-price {
+    font-size: 14px;
+    color: #333;
+    margin-top: 5px;
+}
+
+
 .index-sold-overlay {
     position: absolute;
     top: 0;
@@ -91,4 +98,19 @@
     align-items: center;
     font-size: 24px;
     font-weight: bold;
+}
+
+@media (min-width: 768px) and (max-width: 850px) {
+    .index-recommended-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+        
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .index-product-image-container {
+        width: 200px;
+        height: 200px;
+    }
 }
