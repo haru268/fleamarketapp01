@@ -20,7 +20,6 @@
             </div>
         </div>
 
-        <!-- 支払い方法：セレクトボックス形式 -->
         <div class="from-section from-payment">
             <label for="payment" class="from-label">支払い方法</label>
             <div class="from-select-wrapper">
@@ -33,14 +32,13 @@
             </div>
         </div>
 
-        <!-- 配送先：住所表示＋「変更する」リンク -->
         <div class="from-section from-address-section">
             <label class="from-label">配送先</label>
             <div class="from-address-display">
     @if(isset($address) && $address)
-        {{ optional($address)->postal_code }} 
-        {{ optional($address)->address }} 
-        {{ optional($address)->building }}
+        {{ optional(Auth::user()->userAddress)->postal_code }} 
+        {{ optional(Auth::user()->userAddress)->address }} 
+        {{ optional(Auth::user()->userAddress)->building }}
     @else
         未入力
     @endif

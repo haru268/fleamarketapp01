@@ -26,12 +26,13 @@
                     <div class="index-product-card">
                         <div class="index-product-image-container">
                             <a href="{{ route('item.show', ['id' => $product->id]) }}">
-                                <img src="{{ $product->image }}" alt="{{ $product->name }}" class="index-product-image">
+                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="index-product-image">
                             </a>
-                            @if($product->is_sold)
-                                <div class="index-sold-overlay">Sold</div>
-                            @endif
-                        </div>
+                @if($product->is_sold)
+                <div class="index-sold-overlay">Sold</div>
+                @endif
+        </div>
+
                         <div class="index-product-name">{{ $product->name }}</div>
                         
                     </div>
@@ -51,14 +52,15 @@
             <div class="index-recommended-grid">
                 @foreach($likedProducts as $product)
                     <div class="index-product-card">
-                        <div class="index-product-image-container">
+                        <div class="index-product-image-container" style="position: relative;">
                             <a href="{{ route('item.show', ['id' => $product->id]) }}">
-                                <img src="{{ $product->image }}" alt="{{ $product->name }}" class="index-product-image">
+                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="index-product-image">
                             </a>
-                            @if($product->is_sold)
-                                <div class="index-sold-overlay">Sold</div>
-                            @endif
-                        </div>
+                        @if($product->is_sold)
+                        <div class="index-sold-overlay">Sold</div>
+                        @endif
+                    </div>
+
                         <div class="index-product-name">{{ $product->name }}</div>
                     </div>
                 @endforeach
