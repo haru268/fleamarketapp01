@@ -2,62 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddressRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
-
+    /*------------------------------ ① 購入確定 ------------------------------*/
     public function purchase(Request $request, Product $product)
     {
-
-        $product->buyer_id = Auth::id();
-        $product->is_sold = true;
+        $product->buyer_id     = Auth::id();
+        $product->is_sold      = true;
         $product->purchased_at = now();
         $product->save();
 
-
-        return redirect()->route('profile.show')->with('success', '商品を購入しました。');
+        return redirect()
+            ->route('profile.show')
+            ->with('success', '商品を購入しました。');
     }
 
-
+    /*------------------------------ ② 購入画面（PG06） ------------------------------*/
     public function showPurchaseForm($id)
     {
-        $product = Product::findOrFail($id);
-        $address = Auth::check() ? Auth::user()->fresh('userAddress')->address : null;
+        $product  = Product::findOrFail($id);
+        $address  = Auth::user()->refresh()->userAddress ?? null;   // ★ ここを userAddress
+
         return view('purchase.form', compact('product', 'address'));
     }
 
-    public function showAddressForm()
+    /*------------------------------ ③ 住所変更フォーム（PG07） ------------------------------*/
+    public function showAddressForm(Product $item)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
         $address = Auth::user()->userAddress ?? null;
-        return view('purchase.address', compact('address'));
+        return view('purchase.address', compact('item', 'address'));
     }
 
-    public function updateAddress(Request $request)
+    /*------------------------------ ④ 住所保存 ------------------------------*/
+    public function updateAddress(AddressRequest $request, Product $item)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $validated = $request->validate([
-            'postal_code' => 'required',
-            'address'     => 'required',
-            'building'    => 'nullable',
-        ]);
+        Auth::user()->userAddress()->updateOrCreate([], $request->validated());
 
-        $address = Auth::user()->userAddress ?? new \App\Models\Address();
-        $address->user_id = Auth::id();
-        $address->postal_code = $validated['postal_code'];
-        $address->address = $validated['address'];
-        $address->building = $validated['building'] ?? null;
-        $address->save();
-
-
-        return redirect()->route('purchase.form', ['id' => 6])->with('success', '住所が更新されました。');
+        return redirect()
+            ->route('purchase.form', $item)
+            ->with('success', '送付先住所を更新しました');
     }
 }

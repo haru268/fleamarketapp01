@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Address;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
-use App\Models\Address;
-use Illuminate\Support\Facades\Hash;
 
 class AddressChangeTest extends TestCase
 {

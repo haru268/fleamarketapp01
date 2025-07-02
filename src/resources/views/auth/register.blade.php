@@ -8,18 +8,16 @@
 
         <label class="register-label">
             ユーザー名
-            @error('username')
+            @error('name')
                 <span class="register-error">{{ $message }}</span>
             @enderror
         </label>
-        <input type="text" name="username" class="register-input" value="{{ old('username') }}"  autofocus>
+        <input type="text" name="name" class="register-input" value="{{ old('name') }}"  autofocus>
 
         <label class="register-label">
             メールアドレス
             @error('email')
-                @if($message != 'The email has already been taken.')
                     <span class="register-error">{{ $message }}</span>
-                @endif
             @enderror
         </label>
         <input type="email" name="email" class="register-input" value="{{ old('email') }}">

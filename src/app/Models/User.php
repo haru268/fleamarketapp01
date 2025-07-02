@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Product;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +16,6 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar_url',
-        
     ];
 
     protected $hidden = [
@@ -30,35 +27,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    
+    /* ---------- リレーション ---------- */
+
+    // 出品した商品
     public function exhibitedProducts()
     {
         return $this->hasMany(Product::class);
     }
 
-    
+    // いいねした商品
     public function likedProducts()
     {
         return $this->belongsToMany(Product::class, 'likes', 'user_id', 'product_id');
     }
 
-   
+    // 購入した商品
     public function purchasedProducts()
     {
         return $this->hasMany(Product::class, 'buyer_id');
     }
 
-    
+    // コメント
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
-    
+    // ★ 送付先住所（1 : 1）
     public function userAddress()
     {
-        return $this->hasOne(Address::class);
+        return $this->hasOne(\App\Models\Address::class);
     }
-
-
 }
