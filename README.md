@@ -1,9 +1,9 @@
-環境構築
+##環境構築
 Docokerビルド
 ・git clone git@github.com:haru268/fleamarketapp01.git
 ・docker-compose up -d
 
-Laravel環境構築
+##Laravel環境構築
 ・docker-compose exec php bash
 ・composer install
 ・cp .env.example .env
@@ -11,12 +11,12 @@ Laravel環境構築
 ・php artisan migrate
 ・php artisan db:seed
 
-開発環境
+##開発環境
 ・お問い合わせ画面：http://localhost/
 ・ユーザー登録：http://localhost/register
 ・phpMyAdmin：http://localhost:8080/
 
-・自動テスト実行
+##自動テスト実行
 ・.env.testing を用意
 APP_ENV=testing
 APP_KEY=base64:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=
@@ -43,7 +43,7 @@ php artisan migrate:fresh --env=testing --seed   # クリーン状態
 php artisan test                                 # ✅ 22 件 PASS
 
 
-使用技術(実行環境)
+##使用技術(実行環境)
 ・PHP　8.2.27
 ・Laravel 8.83.29
 ・Docker
@@ -52,7 +52,7 @@ php artisan test                                 # ✅ 22 件 PASS
 ・PHPUnit
 ・Fortify
 
-## 5. テスト用アカウント（手動登録）
+## テスト用アカウント（手動登録）
 
 1. サーバを起動したらブラウザで **http://localhost/register** を開きます。  
 2. 下表の内容で “ユーザー登録” を 2 回行ってください。  
