@@ -48,20 +48,18 @@
             <label class="from-label">配送先</label>
 
             <div class="from-address-display">
-                @if ($address)
-                    {{ optional($address)->postal_code }}
-                    {{ optional($address)->address }}
-                    {{ optional($address)->building }}
-                @else
-                    未入力
-                @endif
+            @if ($address)
+    {{ $address->postal_code }}
+    {{ $address->address }}
+    {{ $address->building }}
+@else
+    未入力
+@endif
             </div>
 
             @auth
-                <a href="{{ route('purchase.address.form', $product) }}"
-                   class="from-change-address-button">
-                    変更する
-                </a>
+            <a href="{{ route('purchase.address.form') }}"
+            class="from-change-address-button">変更する</a>
             @else
                 <a href="{{ route('register') }}"
                    class="from-change-address-button">

@@ -1,4 +1,3 @@
-
 .from-container {
     display: flex;
     max-width: 1200px;
@@ -223,5 +222,65 @@
 
     .from-right {
         width: 100%;
+    }
+}
+
+/* ───────── 769–850 px：タブレットレイアウト ───────── */
+@media (max-width: 850px) and (min-width: 769px) {
+
+    /* ① 1 カラム縦並びにする ─────────────────── */
+    .from-container {
+        flex-direction: column;
+        /* ← 最重要：縦並び */
+        gap: 0px;
+        /* ペイン間の余白をやや詰める */
+        padding: 20px 16px;
+        /* 左右に少し余白 */
+        box-sizing: border-box;
+    }
+
+    /* ② ペイン幅 100 % & 余計なマージンを打ち消す ───── */
+    .from-left,
+    .from-right {
+        width: 100%;
+        margin: 0;
+        /* margin-left:50px; などをリセット */
+    }
+
+    /* ③ 並び順を指定（商品画像＋配送先 → サマリー）──── */
+    .from-left {
+        order: 1;
+    }
+
+    /* 先に表示 */
+    .from-right {
+        order: 2;
+        margin-top: -250px;
+    }
+
+    /* 後で表示 */
+
+    /* ④ 「商品画像＋配送先」ブロック内の余白を詰める ─── */
+    .from-image-row {
+        margin-bottom: 16px;
+    }
+
+    .from-address-section {
+        margin-bottom: 12px;
+    }
+    
+
+    /* ⑤ サマリーボックス（商品代金＋支払い方法） ─────── */
+    .from-summary-box {
+        max-width: 480px;
+        /* 好みで調整：全幅にしたいならこの行を削除 */
+        margin: 0 auto;
+        /* 中央寄せ */
+    }
+
+    /* ⑥ 購入ボタンも中央寄せ＋幅制限（任意で調整） ─── */
+    .from-button {
+        max-width: 320px;
+        margin: 20px auto 0;
     }
 }

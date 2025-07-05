@@ -12,7 +12,7 @@
                 <span class="register-error">{{ $message }}</span>
             @enderror
         </label>
-        <input type="text" name="name" class="register-input" value="{{ old('name') }}"  autofocus>
+        <input type="text" name="username" class="register-input" value="{{ old('name') }}"  autofocus>
 
         <label class="register-label">
             メールアドレス
