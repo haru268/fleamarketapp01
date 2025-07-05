@@ -52,5 +52,19 @@ php artisan test                                 # ✅ 22 件 PASS
 ・PHPUnit
 ・Fortify
 
+## 5. テスト用アカウント（手動登録）
+
+1. サーバを起動したらブラウザで **http://localhost/register** を開きます。  
+2. 下表の内容で “ユーザー登録” を 2 回行ってください。  
+
+| 名前 | E-mail | Password |
+|------|--------|----------|
+| 一般ユーザー1 | general1@gmail.com | password |
+| 一般ユーザー2 | general2@gmail.com | password |
+
+> **注意**  
+> - これはダミーアカウントなので、本番運用では変更・削除して構いません。  
+> - 自動テスト (`php artisan test`) では factory でユーザーを生成するため、この手順は必要ありません。  
+
 ER図
 ![ER図](https://github.com/user-attachments/assets/59576973-52d0-4a37-a2e7-8356210a40bf)
