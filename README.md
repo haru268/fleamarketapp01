@@ -1,6 +1,7 @@
 ────────────────────────────
 ■ セットアップ手順
 ────────────────────────────
+
 git clone git@github.com:haru268/fleamarketapp01.git
 cd fleamarketapp01
 docker-compose up -d
@@ -15,6 +16,7 @@ exit
 ────────────────────────────
 ■ 主要 URL 一覧
 ────────────────────────────
+
 http://localhost/ … トップ（商品一覧）
 http://localhost/register … ユーザー登録
 http://localhost/login … ログイン
@@ -64,6 +66,7 @@ docker-compose exec php bash -c \
 ────────────────────────────
 ■ 使用技術
 ────────────────────────────
+
 PHP 8.2.27 / Laravel 8.83.29 / MySQL 8.0.26 / Docker / Fortify / PHPUnit
 
 ────────────────────────────
