@@ -15,7 +15,7 @@
     @endif
 
     {{-- ★ パラメータ無しで POST --}}
-    <form method="POST" action="{{ route('purchase.address.update') }}">
+    <form method="POST" action="{{ route('purchase.shipping.update') }}">
         @csrf
 
         {{-- 郵便番号 --}}

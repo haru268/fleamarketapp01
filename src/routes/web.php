@@ -49,8 +49,8 @@ Route::middleware('auth')->group(function () {
      |  送付先住所（PG07） ※テストはここを呼びます
      |  固定パスを先に置くこと！
      =================================================== */
-    Route::get ('/purchase/address', [PurchaseController::class,'showAddressForm' ])->name('purchase.address.form');
-    Route::post('/purchase/address', [PurchaseController::class,'updateAddress'   ])->name('purchase.address.update');
+    Route::get ('/purchase/shipping', [PurchaseController::class,'showAddressForm' ])->name('purchase.shipping.form');
+    Route::post('/purchase/shipping', [PurchaseController::class,'updateAddress'   ])->name('purchase.shipping.update');
 
     /* ---------- 購入フロー ---------- */
     Route::post('/purchase/{product}', [PurchaseController::class,'purchase'])

@@ -9,44 +9,40 @@ use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
-    /*----------------------------------------------------------
-    | ① 購入確定
-    *---------------------------------------------------------*/
+    /*------------------------------ ① 購入確定 ------------------------------*/
     public function purchase(Request $request, Product $product)
     {
-        // 購入フラグ更新
         $product->buyer_id     = Auth::id();
         $product->is_sold      = true;
         $product->purchased_at = now();
         $product->save();
 
-        return redirect()
-            ->route('profile.show')
-            ->with('success', '商品を購入しました。');
+        return redirect()->route('profile.show')
+                         ->with('success', '商品を購入しました。');
     }
 
-    /* 購入画面（PG06） */
-public function showPurchaseForm($id)
-{
-    $product  = Product::findOrFail($id);
-    $address  = Auth::user()->userAddress()->first();   // ← ここだけ変更
-    return view('purchase.form', compact('product', 'address'));
-}
+    /*------------------------------ ② 購入画面（PG06） ------------------------------*/
+    public function showPurchaseForm($id)
+    {
+        $product = Product::findOrFail($id);
+        $address = Auth::user()->userAddress()->first();           // 1 : 1 の住所
+        return view('purchase.form', compact('product', 'address'));
+    }
 
-/* 住所変更フォーム */
-public function showAddressForm()
-{
-    $address = Auth::user()->userAddress;               // ← 修正
-    return view('purchase.address', compact('address'));
-}
+    /*------------------------------ ③ 送付先住所入力（PG07） ------------------------------*/
+    public function showAddressForm()
+    {
+        $address = Auth::user()->userAddress;                      // null 可
+        return view('purchase.shipping', compact('address'));      // ★ shipping.blade.php
+    }
 
-/* 住所保存 */
-public function updateAddress(AddressRequest $request)
-{
-    Auth::user()->userAddress()->updateOrCreate([], $request->validated()); // ← 修正
-    return redirect()->route('profile.show')
-                     ->with('success', '送付先住所を更新しました');
-}
+    /*------------------------------ ④ 住所保存 ------------------------------*/
+    public function updateAddress(AddressRequest $request)
+    {
+        Auth::user()->userAddress()->updateOrCreate([], $request->validated());
 
-
+        // ここはテスト仕様で profile へ戻す
+        return redirect()->route('profile.show')
+                         ->with('success', '送付先住所を更新しました');
+    }
 }

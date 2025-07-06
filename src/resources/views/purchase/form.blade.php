@@ -58,7 +58,7 @@
             </div>
 
             @auth
-            <a href="{{ route('purchase.address.form') }}"
+            <a href="{{ route('purchase.shipping.form') }}"
             class="from-change-address-button">変更する</a>
             @else
                 <a href="{{ route('register') }}"
