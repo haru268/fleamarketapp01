@@ -1,4 +1,4 @@
-## 🛠️ 環境構築
+<img width="3453" height="2847" alt="image" src="https://github.com/user-attachments/assets/7d79ecef-d21c-4b34-83d7-ccfbacaca99a" />## 🛠️ 環境構築
 
 ```bash
 # 1. clone
@@ -71,5 +71,5 @@ PHP 8.2.27 / Laravel 8.83.29 / MySQL 8.0.26 / Docker / Fortify / PHPUnit
 ■ ER 図
 ────────────────────────────
 
-![ER図](https://github.com/user-attachments/assets/59576973-52d0-4a37-a2e7-8356210a40bf)
+![ER 図](docs/er.png)
 
