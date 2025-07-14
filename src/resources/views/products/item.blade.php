@@ -1,16 +1,19 @@
+{{-- resources/views/products/item.blade.php --}}
 @extends('layouts.main_layout')
 
 @section('content')
 <div class="item-container">
-    
+
+    {{-- ==== 左カラム：商品画像 ==== --}}
     <div class="item-left">
-        @if($product->image)
+        @if ($product->image)
             <img src="{{ $product->image }}" alt="{{ $product->name }}" class="item-image">
         @else
             <div class="item-image-placeholder">商品画像</div>
         @endif
     </div>
-    
+
+    {{-- ==== 右カラム：詳細 ==== --}}
     <div class="item-right">
         <h1 class="item-title">{{ $product->name }}</h1>
         <p class="item-brand">{{ $product->brand ?? 'ブランド未登録' }}</p>
@@ -19,40 +22,47 @@
             <span class="item-tax">(税込)</span>
         </p>
 
+        {{-- --- いいね & コメント数 --- --}}
         <div class="item-icons">
             <div class="item-icon-wrapper">
-                <!-- いいねボタンに data-product-id を追加 -->
-                <span class="item-icon" id="likeIcon" data-product-id="{{ $product->id }}">
+                <span class="item-icon"
+                      id="likeIcon"
+                      data-product-id="{{ $product->id }}">
                     {{ Auth::check() && $product->likedBy(Auth::user()) ? '★' : '☆' }}
                 </span>
-                <span class="item-icon-count" id="likeCount">{{ $product->likes()->count() }}</span>
+                <span class="item-icon-count"
+                      id="likeCount">{{ $product->likes()->count() }}</span>
             </div>
             <div class="item-icon-wrapper">
                 <span class="item-icon" id="commentIcon">💬</span>
-                <span class="item-icon-count" id="commentCount">{{ $product->comments->count() }}</span>
+                <span class="item-icon-count item-comment-count"
+                      id="commentCount">{{ $product->comments->count() }}</span>
             </div>
         </div>
-        
+
         <div class="item-purchase-wrap">
-            <a href="{{ route('purchase.form', ['id' => $product->id]) }}" class="item-purchase-button">
-                購入手続きへ
-            </a>
+            <a href="{{ route('purchase.form', ['id' => $product->id]) }}"
+               class="item-purchase-button">購入手続きへ</a>
         </div>
-        
+
+        {{-- --- 商品説明 --- --}}
         <h2 class="item-section-title">商品説明</h2>
         <div class="item-description">
             {{ $product->description }}
         </div>
-        
+
+        {{-- --- 商品情報 --- --}}
         <h2 class="item-section-title">商品の情報</h2>
         <div class="item-info">
             <div class="item-info-row">
                 <span class="item-info-label">カテゴリー</span>
                 <div class="item-info-category">
                     @php
-                        $categoriesArray = $product->categories ? explode(',', $product->categories) : [];
+                        $categoriesArray = $product->categories
+                                        ? explode(',', $product->categories)
+                                        : [];
                     @endphp
-                    @forelse($categoriesArray as $cat)
+                    @forelse ($categoriesArray as $cat)
                         <span class="item-info-badge">{{ $cat }}</span>
                     @empty
                         <span class="item-info-badge">未設定</span>
@@ -61,26 +71,23 @@
             </div>
             <div class="item-info-row">
                 <span class="item-info-label">商品の状態</span>
-                <span class="item-info-condition">
-                    {{ $product->condition ?? '未設定' }}
-                </span>
+                <span class="item-info-condition">{{ $product->condition ?? '未設定' }}</span>
             </div>
         </div>
-        
-        @php
-            $commentCount = $product->comments->count();
-        @endphp
+
+        {{-- --- コメント一覧 --- --}}
+        @php $commentCount = $product->comments->count(); @endphp
         <h2 class="item-section-title">コメント ({{ $commentCount }})</h2>
+
         <div class="item-comment-list">
-            @forelse($product->comments as $comment)
+            @forelse ($product->comments as $comment)
                 <div class="item-comment-box">
                     <div class="item-comment-header">
                         <div class="item-comment-avatar">
-                            @if($comment->user && $comment->user->profile_image)
-                                <img src="{{ asset('storage/' . $comment->user->profile_image) }}" alt="avatar">
-                            @else
-                                <img src="{{ asset('images/default-user.png') }}" alt="avatar">
-                            @endif
+                            <img src="{{ ($comment->user && $comment->user->profile_image)
+                                         ? asset('storage/'.$comment->user->profile_image)
+                                         : asset('images/default-user.png') }}"
+                                 alt="avatar">
                         </div>
                         <div class="item-comment-user">
                             {{ $comment->user->name ?? 'admin' }}
@@ -94,110 +101,58 @@
                 <p class="item-comment-empty">まだコメントはありません。</p>
             @endforelse
         </div>
-        
+
+        {{-- --- コメント投稿フォーム --- --}}
         <h3 class="item-comment-title">商品へのコメント</h3>
         <textarea id="comment-input" class="item-comment-input" rows="3"></textarea>
-        <button type="button" id="commentSubmit" class="item-comment-submit">コメントを送信する</button>
+        <button type="button" id="commentSubmit" class="item-comment-submit">
+            コメントを送信する
+        </button>
     </div>
 </div>
 @endsection
 
-@section('scripts')
+
+@push('scripts')
 <script>
-document.getElementById('commentSubmit').addEventListener('click', function() {
-    const commentBody = document.getElementById('comment-input').value;
-    if (!commentBody.trim()) {
-        alert('コメントを入力してください');
-        return;
-    }
+document.getElementById('commentSubmit').addEventListener('click', () => {
+    const body = document.getElementById('comment-input').value.trim();
+    if (!body) return alert('コメントを入力してください');
 
-    fetch("{{ route('comment.store') }}", {
-        method: 'POST',
+    fetch("{{ route('comments.store', $product) }}", {
+        method : 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            'Content-Type' : 'application/json',
+            'Accept'       : 'application/json',   // ←★ 追加ポイント
+            'X-CSRF-TOKEN' : "{{ csrf_token() }}"
         },
-        body: JSON.stringify({
-            product_id: {{ $product->id }},
-            body: commentBody
-        })
+        body: JSON.stringify({ body })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
-        const commentList = document.querySelector('.item-comment-list');
-        const avatarUrl = data.avatar ? data.avatar : "{{ asset('images/default-user.png') }}";
-        const newCommentHTML = `
+    .then(r => r.json())              // ← JSON を確実に受け取れる
+    .then(d => {
+        if (!d.success) return alert(d.info ?? '投稿失敗');
+
+        /* ----- コメントを DOM に追加 ----- */
+        const list = document.querySelector('.item-comment-list');
+        list.insertAdjacentHTML('afterbegin', `
             <div class="item-comment-box">
+              <div class="item-comment-header">
                 <div class="item-comment-avatar">
-                    <img src="${avatarUrl}" alt="avatar">
+                  <img src="${d.avatar}" alt="avatar">
                 </div>
-                <div class="item-comment-content">
-                    <div class="item-comment-user">${data.user}</div>
-                    <div class="item-comment-body">${data.body}</div>
-                </div>
-            </div>
-        `;
-        commentList.insertAdjacentHTML('afterbegin', newCommentHTML);
+                <div class="item-comment-user">${d.user}</div>
+              </div>
+              <div class="item-comment-body">${d.body}</div>
+            </div>`);
+
+        /* 入力欄クリア & 件数 +1 */
         document.getElementById('comment-input').value = '';
-
-        // コメント数更新
-        const titleEl = document.querySelector('.item-section-title');
-        if (titleEl && titleEl.textContent.includes('コメント (')) {
-            const match = titleEl.textContent.match(/コメント\s*\((\d+)\)/);
-            if (match) {
-                const newCount = parseInt(match[1], 10) + 1;
-                titleEl.textContent = `コメント (${newCount})`;
-            }
-        }
-        const iconCountEl = document.querySelector('.item-comment-count');
-        if (iconCountEl) {
-            const newIconCount = parseInt(iconCountEl.textContent, 10) + 1;
-            iconCountEl.textContent = newIconCount;
-        }
+        const cnt    = document.getElementById('commentCount');
+        cnt.textContent = +cnt.textContent + 1;
+        document.querySelector('.item-section-title')
+                .textContent = `コメント (${cnt.textContent})`;
     })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('コメント投稿に失敗しました。');
-    });
-});
-
-// Ajax でいいねの状態を切り替える
-document.getElementById('likeIcon').addEventListener('click', function() {
-    const likeIcon = this;
-    const likeCountElem = document.getElementById('likeCount');
-    const productId = likeIcon.getAttribute('data-product-id');
-    fetch("{{ route('like.toggle') }}", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-        },
-        body: JSON.stringify({ product_id: productId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.success) {
-            if(data.liked) {
-                likeIcon.textContent = '★';
-                likeIcon.classList.add('liked');
-            } else {
-                likeIcon.textContent = '☆';
-                likeIcon.classList.remove('liked');
-            }
-            likeCountElem.textContent = data.like_count;
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
-
-document.getElementById('commentIcon').addEventListener('click', function() {
-    document.getElementById('comment-input').focus();
+    .catch(() => alert('通信エラーが発生しました'));   // ← ここは例外時のみ
 });
 </script>
-@endsection
+@endpush

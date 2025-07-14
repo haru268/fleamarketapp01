@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="{{ asset('css/item.css') }}">
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
     <link rel="stylesheet" href="{{ asset('css/address.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 <body>
     <header class="main-header">
@@ -35,6 +38,6 @@
     <main class="main-content">
         @yield('content')
     </main>
-    @yield('scripts')
+    @stack('scripts')
 </body>
 </html>

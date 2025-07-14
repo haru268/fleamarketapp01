@@ -11,7 +11,7 @@ class ProductSeeder extends Seeder
 {
     public function run()
     {
-        // ここでは user_id を 1 に固定しています。必要に応じてユーザー生成などの処理に合わせてください。
+       
         $products = [
             [
                 'user_id' => 1,
@@ -116,7 +116,7 @@ class ProductSeeder extends Seeder
         ];
         
         foreach ($products as $data) {
-            // 既存のユーザーからランダムに選ぶ。存在しない場合は新規作成する
+          
             $user = User::inRandomOrder()->first() ?? User::factory()->create();
             $data['user_id'] = $user->id;
             Product::create($data);
