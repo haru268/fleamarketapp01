@@ -19,6 +19,9 @@ class Product extends Model
         'condition',
         'image',
         'is_recommended',   
+        'buyer_id',
+         'is_sold',
+          'purchased_at',
     ];
 
     public function user()       

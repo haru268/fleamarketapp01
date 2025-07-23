@@ -1,4 +1,6 @@
-
+/*──────────────────────────────────────────────
+  共通レイアウト
+──────────────────────────────────────────────*/
 .show-container {
     width: 100%;
     max-width: none;
@@ -7,10 +9,9 @@
     background: #fff;
     text-align: center;
     box-sizing: border-box;
-    overflow-x: hidden;
 }
 
-
+/*──────── プロフィール行 ────────*/
 .show-profile-section {
     display: flex;
     justify-content: center;
@@ -27,44 +28,37 @@
 
 .show-username {
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 700;
     color: #333;
     margin: 0 100px 0 20px;
 }
 
+.name-and-stars {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
 
 .rating-stars {
-  
     display: inline-flex;
-    align-items: center;
     gap: 2px;
-   
+    margin-left: 20px;
 }
 
 .star {
-   
     font-size: 1.3rem;
     color: #d1d5db;
 }
 
 .star.on {
-   
     color: #facc15;
-   
 }
 
-.avg-num {
-   
-    margin-left: 4px;
-    font-size: .9rem;
-    color: #555;
-}
-
-
-
+/*──────── 編集ボタン ────────*/
 .show-edit-profile-button {
     padding: 10px 20px;
-    font-weight: bold;
+    font-weight: 700;
     color: #f00;
     background: #fff;
     border: 2px solid #f00;
@@ -72,42 +66,49 @@
     text-decoration: none;
 }
 
-
+/*──────── タブ行 ────────*/
 .mypage-tab-container {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
-    position: relative;
-    left: -250px;
-   
-    margin-bottom: -30px;
+    margin: 30px -20px -30px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #000;
+    padding-right: 300px;
 }
 
 .mypage-tab-button {
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 700;
     color: #666;
     padding: 10px;
     margin: 0 20px;
     text-decoration: none;
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .mypage-tab-button.active {
     color: red;
 }
 
-
-.show-divider-fullwidth {
-    width: calc(100% + 40px);
-    height: 2px;
-    background: #000;
-    margin: 20px -20px 20px;
+.badge-unread-all {
+    min-width: 20px;
+    height: 20px;
+    padding: 1px 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: #e11d48;
+    border-radius: 50%;
+    line-height: 1;
 }
 
-
+/*──────── 出品/購入/取引グリッド ────────*/
 #show-exhibited-items,
-#show-purchased-items {
+#show-purchased-items,
+#show-trade-items {
     margin-top: 20px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -125,13 +126,8 @@
     object-fit: cover;
 }
 
-.show-product-name {
-    margin-top: .5rem;
-}
-
-
 .show-trade-grid {
-   
+    /* 旧 id を使っている場合の保険 */
     margin-top: 20px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -139,13 +135,11 @@
     justify-items: center;
 }
 
-
 .mypage-card {
     width: 250px;
     position: relative;
     text-align: center;
     color: #111;
-   
     text-decoration: none;
 }
 
@@ -154,24 +148,27 @@
     height: 250px;
     object-fit: cover;
     border-radius: 4px;
+
 }
 
+.mypage-card img,
+.show-product-image {
+    margin-top: 50px;
+    /* 好みで調整：0‑10px 程度 */
+}
 
 .mypage-card-name {
     display: block;
     margin-top: .5rem;
     font-size: .875rem;
-  
     color: #111;
-    text-decoration: none;
     word-break: break-all;
 }
-
 
 .badge-unread {
     position: absolute;
     top: 4px;
-    left: 0px;
+    left: 4px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -180,43 +177,10 @@
     font-size: 12px;
     color: #fff;
     background: #e11d48;
-   
     border-radius: 50%;
 }
 
-
-.badge-unread-all {
-    position: absolute;
-    top: 15px;
-  
-    right: 200px;
-
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-
-    min-width: 20px;
-  
-    height: 20px;
-    padding: 1 4px;
-  
-
-    font-size: 12px;
-    font-weight: 700;
-   
-    line-height: 1;
-
-    color: #fff !important;
-   
-    background: #e11d48;
-  
-    border-radius: 9999px;
-}
-
-.hidden {
-    display: none;
-}
-
+/*──────── モーダル（評価用） ────────*/
 .modal {
     position: fixed;
     inset: 0;
@@ -240,61 +204,46 @@
     text-align: center;
 }
 
-.hidden {
-    display: none !important;
+.mypage-tab-container {
+    border-bottom: 2px solid #000;
+    /* 黒線 */
+    padding-bottom: 8px;
+    /* 線とタブ文字の間隔（好みで調整） */
+
+    /* ↓ show‑container が padding:20px 持っている分だけ外へ張り出す */
+    margin-left: -20px;
+    margin-right: -20px;
+}
+
+/* 一覧カード上の赤丸を 6 px 下へ（好みの値で調整） */
+.mypage-card .badge-unread {
+    top: 50px !important;
+    /* ← 元の 4‥6 あたり → 10 へ。!important で確実に上書き */
 }
 
 
-.name-and-stars {
-    display: flex;
-    flex-direction: column;
-  
-    align-items: flex-start;
-  
-    gap: 4px;
-    
-}
-
-
-.rating-stars {
-    display: inline-flex;
-    gap: 2px;
-    margin-left: 20px;
-}
-
-.star {
-    color: #d1d5db;
-    font-size: 1.3rem;
-}
-
-.star.on {
-    color: #facc15;
-}
-
-.avg-num {
-    margin-left: 4px;
-    font-size: .9rem;
-    color: #555;
-}
-
-
-.badge-unread-tab {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 4px;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    color: #fff;
-    background: #e11d48;
-    border-radius: 50%;
-}
-
-
+/*──────────────────────────────
+  スマホ (0‑767px)
+──────────────────────────────*/
 @media (max-width:767px) {
 
-   
+    /* 画像 3 列 140px */
+    #show-exhibited-items,
+    #show-purchased-items,
+    #show-trade-items {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .mypage-card,
+    .mypage-card img,
+    .show-product-image {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+    }
+
+    /* プロフィール縮小 */
     .show-profile-image {
         width: 120px;
         height: 120px;
@@ -305,42 +254,76 @@
         margin: 0 20px 0 10px;
     }
 
-   
+    /* タブ中央寄せ（スマホはそのまま中央） */
     .mypage-tab-container {
-        left: 0;
-        margin: 20px 0 10px;
-        overflow-x: hidden;
-        transform: translateX(-200px);
-      
+        justify-content: center;
     }
 
+    /* 未読バッジをタブ右肩固定 */
     .mypage-tab-button {
-        font-size: 16px;
-        padding: 8px;
-        margin: 0 10px;
+        position: relative;
     }
 
-   
+    .mypage-tab-button .badge-unread-all {
+        position: absolute;
+        right: -10px;
+        top: -4px;
+    }
+}
+
+/*──────────────────────────────
+  タブレット (768‑850px)
+──────────────────────────────*/
+@media (min-width:768px) and (max-width:850px) {
+
+    .show-profile-section {
+        gap: 15px;
+    }
+
+    .show-username {
+        font-size: 22px;
+        margin: 0 50px 0 15px;
+    }
+
+    /* タブ行の余白微調整 */
+    .mypage-tab-container {
+        margin: 25px 0 -20px;
+    }
+
+    /* 画像 3 列 200px */
     #show-exhibited-items,
-    #show-purchased-items {
+    #show-purchased-items,
+    #show-trade-items {
         grid-template-columns: repeat(3, 1fr);
         gap: 15px;
     }
 
-    .show-product-image {
-        width: 150px;
-        height: 150px;
-    }
-
-   
-    .show-trade-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
     .mypage-card,
-    .mypage-card img {
-        width: 150px;
-        height: 150px;
+    .mypage-card img,
+    .show-product-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    /* 未読バッジ位置（タブの幅に合わせて右にオフセット） */
+    .badge-unread-all {
+        right: 100px;
+    }
+}
+
+/*──────────────────────────────
+  PC (851px〜) - 基本レイアウトをそのまま使用
+──────────────────────────────*/
+@media (min-width:851px) {
+
+    /* タブは中央寄せのまま。未読バッジを文字の右に寄せるだけ */
+    .mypage-tab-button {
+        position: relative;
+    }
+
+    .mypage-tab-button .badge-unread-all {
+        right: -10px;
+        left: auto;
+        top: -4px;
     }
 }

@@ -1,4 +1,3 @@
-
 .trade-wrapper {
     display: flex
 }
@@ -287,37 +286,42 @@
 }
 
 .modal-title {
-    font-size: 1.4rem;
+    font-size: 2rem;
     font-weight: 700;
-    padding: 24px 24px 12px;
-    border-bottom:1px solid #d4d4d4;
+    padding: 0px 24px 0px;
+    border-bottom: 1px solid #d4d4d4;
+    margin: 0;
 }
 
 .modal-sub {
-    font-size: .9rem;
+    font-size: 1rem;
     color: #6b7280;
-    padding:4px 24px 12px;
+    padding: 5px 24px 0;
+    margin: -2px 0 -14px;
 }
 
+/* 評価モーダルの★レイアウト（中央寄せ） */
 .stars {
     display: flex;
-    flex-direction: row-reverse;
+    /* ← inline‑flex → flex に変更 */
     justify-content: center;
-    gap: 22px;
-    padding: 22px 0
+    /* 横方向中央 */
+    width: 100%;
+    /* 行全体を使う＝中央寄せが効く */
+    gap: 0px;
+    margin-top: -10px;
+    /* 見出しとの余白（任意） */
 }
 
 .stars label {
-    font-size: 3rem;
-    color: #d1d5db;
     cursor: pointer;
-    transition: .2s
+    font-size: 5rem;
+    color: #d1d5db;
+    transition: color .12s;
 }
 
-.stars label:hover,
-.stars input:checked~label,
-.stars label:hover~label {
-    color: #facc15
+.stars input {
+    display: none;
 }
 
 .modal-footer {

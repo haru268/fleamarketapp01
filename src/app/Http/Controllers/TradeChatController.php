@@ -43,10 +43,12 @@ class TradeChatController extends Controller
 
       
         $alreadyRated = $trade->ratings()
-                              ->where('rater_id', $me->id)
-                              ->exists();
+                      ->where('rater_id', Auth::id())
+                      ->exists();
 
-        $showRatingModal = false;
+/*  ✔ progress のまま もしくは
+    ✔ status=done でも自分が未評価ならモーダルを出したい */
+$showRatingModal = !$alreadyRated;
 
       
         if ($me->id === $trade->buyer_id &&

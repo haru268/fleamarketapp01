@@ -1,4 +1,4 @@
-{{-- resources/views/profile/show.blade.php --}}
+{{-- resources/views/profile/show.blade.php ----------------------------------}}
 @extends('layouts.main_layout')
 
 @section('content')
@@ -6,12 +6,10 @@
 
     {{-- ───── プロフィールカード ───── --}}
     <div class="show-profile-section">
-        {{-- プロフィール画像 --}}
-        <img src="{{ $user->avatar_url }}"          
-     class="show-profile-image"
-     alt="">
+        {{-- アイコン --}}
+        <img src="{{ $user->avatar_url }}" class="show-profile-image" alt="">
 
-        {{-- ▼ 名前＋星を縦にスタック ▼ --}}
+        {{-- 名前 + 星 --}}
         <div class="name-and-stars">
             <span class="show-username">{{ $user->name }}</span>
 
@@ -33,27 +31,29 @@
     {{-- ───── タブ切替 ───── --}}
     @php($page = request()->query('page', 'sell')) {{-- デフォルト＝出品 --}}
     <div class="mypage-tab-container">
+        {{-- 購入 --}}
         <a href="{{ route('profile.show', ['page' => 'buy']) }}"
            class="mypage-tab-button {{ $page === 'buy' ? 'active' : '' }}">
             購入した商品
         </a>
 
+        {{-- 出品 --}}
         <a href="{{ route('profile.show', ['page' => 'sell']) }}"
            class="mypage-tab-button {{ $page === 'sell' ? 'active' : '' }}">
             出品した商品
         </a>
 
-        {{-- 取引中タブ：未読合計があれば数字バッジ --}}
+        {{-- 取引中（数字バッジ） --}}
         <a href="{{ route('profile.show', ['page' => 'trade']) }}"
            class="mypage-tab-button {{ $page === 'trade' ? 'active' : '' }}">
             取引中の商品
             @if ($unreadTotal)
-    <span class="badge-unread-all">{{ $unreadTotal }}</span>
-@endif
+                {{-- ★ 数字バッジはテキストと同じ flex‑row 中央に並ぶ --}}
+                <span class="badge-unread-all">{{ $unreadTotal }}</span>
+            @endif
         </a>
     </div>
 
-    <div class="show-divider-fullwidth"></div>
 
     {{-- ───── 取引中タブ ───── --}}
     @if ($page === 'trade')
@@ -62,11 +62,9 @@
                 <a href="{{ route('trades.chat', $t) }}" class="mypage-card">
                     <img src="{{ $t->product->image }}" alt="{{ $t->product->name }}">
 
-                    <span class="mypage-card-name">
-                        {{ Str::limit($t->product->name, 20) }}
-                    </span>
+                    <span class="mypage-card-name">{{ $t->product->name }}</span>
 
-                    {{-- 取引ごとの未読バッジ --}}
+                    {{-- 各取引の未読バッジ --}}
                     @if ($t->unread_count)
                         <span class="badge-unread">{{ $t->unread_count }}</span>
                     @endif
@@ -83,8 +81,7 @@
         <div id="show-purchased-items" class="show-purchased-grid">
             @forelse ($purchasedProducts as $product)
                 <div class="show-product-item">
-                    <img src="{{ $product->image }}" alt="{{ $product->name }}"
-                         class="show-product-image">
+                    <img src="{{ $product->image }}" class="show-product-image" alt="{{ $product->name }}">
                     <p class="show-product-name">{{ $product->name }}</p>
                 </div>
             @empty
@@ -97,9 +94,8 @@
         <div id="show-exhibited-items" class="show-exhibited-grid">
             @forelse ($exhibitedProducts as $product)
                 <div class="show-product-item">
-                    <a href="{{ route('sell.edit', ['id' => $product->id]) }}">
-                        <img src="{{ $product->image }}" alt="{{ $product->name }}"
-                             class="show-product-image">
+                    <a href="{{ route('sell.edit', $product) }}">
+                        <img src="{{ $product->image }}" class="show-product-image" alt="{{ $product->name }}">
                     </a>
                     <p class="show-product-name">{{ $product->name }}</p>
                 </div>

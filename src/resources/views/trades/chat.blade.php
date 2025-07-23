@@ -2,8 +2,7 @@
 @extends('layouts.main_layout')
 
 @push('styles')
-  {{-- 通常のチャット CSS --}}
-  <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
 @endpush
 
 @section('content')
@@ -29,21 +28,23 @@
   <section class="trade-main">
 
       {{-- ①ヘッダー --}}
-<header class="trade-header">
-    <div class="trade-header__user">
-        {{-- 相手アイコン --}}
-        <img src="{{ optional($otherUser)->avatar_url }}"
-             class="user-avatar" alt="">
+      <header class="trade-header">
+          <div class="trade-header__user">
+              {{-- 相手アイコン --}}
+              <img src="{{ optional($otherUser)->avatar_url }}"
+                   class="user-avatar" alt="">
+              {{-- 相手名 --}}
+              <h2>「{{ optional($otherUser)->name ?? '（相手未定）' }}」 さんとの取引画面</h2>
+          </div>
 
-        {{-- 相手名 --}}
-        <h2>「{{ optional($otherUser)->name ?? '（相手未定）' }}」 さんとの取引画面</h2>
-    </div>
-
-    @if (auth()->id() === $trade->buyer_id && $trade->status === 'progress')
-        <button id="openRatingModal" class="btn-complete">取引を完了する</button>
-    @endif
-</header>
-
+          {{-- ↓★ここを丸ごと下のコードに置き換え -------------------------------- --}}
+          {{-- ①ヘッダー右側：買った人なら常に表示（status=progress 限定） --}}
+          @if (auth()->id() === $trade->buyer_id && $trade->status === 'progress')
+              <button id="openRatingModal" class="btn-complete">
+                  取引を完了する
+              </button>
+          @endif
+      </header>
 
       {{-- ②商品概要 --}}
       <div class="product-summary">
@@ -71,7 +72,6 @@
                       @endif
                   </div>
 
-                  {{-- 自分のメッセージ：編集・削除 --}}
                   @if ($mine)
                       <div class="msg-action-area">
                           <form action="{{ route('trades.messages.edit', [$trade,$msg]) }}" method="GET">
@@ -102,11 +102,10 @@
   </section>
 </div>
 
-{{-- ★ 評価モーダル（購入者 / 出品者 共通） --}}
+{{--──────── 評価モーダル（購入者 / 出品者 共通） ────────--}}
 @if ($showRatingModal)
-{{-- 購入者（ボタンあり）は hidden、出品者（ボタンなし）は即表示 --}}
 <div id="ratingModal"
-     class="modal {{ auth()->id() === $trade->buyer_id ? 'hidden' : '' }}">
+     class="modal {{ auth()->id()===$trade->buyer_id && $trade->status==='progress' ? 'hidden' : '' }}">
   <div class="modal-card">
       <h3 class="modal-title">取引が完了しました。</h3>
       <p class="modal-sub">今回の取引相手はどうでしたか？</p>
@@ -128,22 +127,24 @@
 @endif
 @endsection
 
-
 @push('scripts')
 <script>
-
 document.addEventListener('DOMContentLoaded', () => {
+    /* モーダル表示（購入者のみボタン → モーダル） */
     const openBtn = document.getElementById('openRatingModal');
     const modal   = document.getElementById('ratingModal');
+    if (openBtn && modal){
+        openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+    }
 
-    if (openBtn && modal) openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
-
-
-    document.querySelectorAll('input[name="score"]').forEach(radio=>{
-        radio.addEventListener('change',e=>{
-            const val = +e.target.value;
-            document.querySelectorAll('.stars label').forEach((lb,i)=>
-                lb.style.color = i < val ? '#facc15' : '#d1d5db');
+    /* ★ 左→右 に着色 */
+    const labels = document.querySelectorAll('.stars label'); // ← 順番そのまま
+    document.querySelectorAll('input[name="score"]').forEach(radio => {
+        radio.addEventListener('change', e => {
+            const val = parseInt(e.target.value, 10);          // 1〜5
+            labels.forEach((lb, i) => {
+                lb.style.color = i < val ? '#facc15' : '#d1d5db';  // 左から val 個塗る
+            });
         });
     });
 });
