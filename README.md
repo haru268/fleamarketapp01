@@ -21,27 +21,31 @@ docker-compose exec php composer install
 docker-compose exec php php artisan key:generate
 docker-compose exec php php artisan migrate:fresh --seed
 
-Mailhog でメール確認 → http://localhost:8025
-phpMyAdmin → http://localhost:8080
+#　Mailhog でメール確認 → http://localhost:8025
+#　phpMyAdmin → http://localhost:8080
 
 ────────────────────────────
 ■ 主要 URL 一覧
 ────────────────────────────
 
-トップ（商品一覧）	http://localhost/
-ユーザー登録	http://localhost/register
-ログイン	http://localhost/login
-Mailhog	http://localhost:8025
-phpMyAdmin	http://localhost:8080
+#　トップ（商品一覧）	http://localhost/
+#　ユーザー登録	http://localhost/register
+#　ログイン	http://localhost/login
+#　Mailhog	http://localhost:8025
+#　phpMyAdmin	http://localhost:8080
 
 
-ダミーユーザー
-email	password	備考
-user1@example.com	password	出品者
-user2@example.com	password	購入者
-user3@example.com	password	テスト用
+────────────────────────────
+■　ダミーユーザー
+────────────────────────────
+#　email	password	備考
+#　user1@example.com	password	出品者
+#　user2@example.com	password	購入者
+#　user3@example.com	password	テスト用
 
-
+────────────────────────────
+■　その他
+────────────────────────────
  自動テスト（PHPUnit）
 # 初回のみ：テスト DB 作成
 docker-compose exec mysql \
