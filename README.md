@@ -55,7 +55,7 @@ user1@example.com	password	出品者
 
 user2@example.com	password	購入者
 
-user3@example.com	password	テスト用
+lonely@example.com	password	テスト用
 
 ────────────────────────────
 ■　その他
