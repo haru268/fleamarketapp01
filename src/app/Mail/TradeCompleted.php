@@ -14,17 +14,12 @@ class TradeCompleted extends Mailable
     /** @var \App\Models\Trade */
     public $trade;
 
-    /**
-     * 取引情報を受け取ってプロパティへ保持
-     */
+
     public function __construct(Trade $trade)
     {
         $this->trade = $trade;
     }
 
-    /**
-     * メールを組み立てる
-     */
     public function build()
     {
         return $this

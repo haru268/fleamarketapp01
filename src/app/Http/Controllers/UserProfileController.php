@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserProfileController extends Controller
 {
-    /*────────────────────────────────────────
-      プロフィール編集フォーム
-    ────────────────────────────────────────*/
+   
     public function edit()
     {
         $user = Auth::user();
@@ -24,9 +22,7 @@ class UserProfileController extends Controller
         return view('profile.edit', compact('user', 'profileImage'));
     }
 
-    /*────────────────────────────────────────
-      プロフィール更新
-    ────────────────────────────────────────*/
+   
     public function update(Request $request)
     {
         $user = $request->user();
@@ -48,16 +44,14 @@ class UserProfileController extends Controller
                          ->with('success', 'プロフィールが更新されました。');
     }
 
-    /*────────────────────────────────────────
-      マイページ表示
-    ────────────────────────────────────────*/
+    
     public function show(Request $request)
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
         if (!$user) return redirect()->route('login');
 
-        /* ---------- ① 未読合計バッジ ---------- */
+      
         $unreadTotal = Trade::where(fn ($q) => $q
                                 ->where('seller_id', $user->id)
                                 ->orWhere('buyer_id',  $user->id))
@@ -70,8 +64,8 @@ class UserProfileController extends Controller
                       ->get()
                       ->sum('unread');
 
-        /* ---------- ② タブ選択 ---------- */
-        $page = $request->query('page', 'sell');   // デフォルト sell
+       
+        $page = $request->query('page', 'sell');  
 
         $purchasedProducts = collect();
         $exhibitedProducts = collect();
@@ -79,28 +73,28 @@ class UserProfileController extends Controller
         $likedProducts     = $user->likedProducts;
 
         switch ($page) {
-            /*――― 購入タブ ―――*/
+           
             case 'buy':
                 $purchasedProducts = Product::where('buyer_id', $user->id)
-                                            ->where('is_sold', true)     // ★売却済みのみ
+                                            ->where('is_sold', true)    
                                             ->orderByDesc('purchased_at')
                                             ->get();
                 break;
 
-            /*――― 出品タブ ―――*/
+           
             case 'sell':
                 $exhibitedProducts = $user->exhibitedProducts()
-                                          ->where('is_sold', false)      // ★まだ売れていないものだけ
+                                          ->where('is_sold', false)    
                                           ->latest('updated_at')
                                           ->get();
                 break;
 
-            /*――― 取引中タブ ―――*/
+          
             case 'trade':
                 $tradingTrades = Trade::where(fn ($q) => $q
                                         ->where('seller_id', $user->id)
                                         ->orWhere('buyer_id',  $user->id))
-                               ->where('status', 'progress')            // progress 必須
+                               ->where('status', 'progress')           
                                ->with('product')
                                ->withCount([
                                    'messages as unread_count' => fn ($q) => $q
@@ -112,7 +106,7 @@ class UserProfileController extends Controller
                 break;
         }
 
-        /* ---------- ③ ビューへ ---------- */
+       
         return view('profile.show', [
             'user'              => $user,
             'page'              => $page,

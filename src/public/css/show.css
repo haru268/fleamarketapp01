@@ -1,6 +1,4 @@
-/*──────────────────────────────────────────────
-  共通レイアウト
-──────────────────────────────────────────────*/
+
 .show-container {
     width: 100%;
     max-width: none;
@@ -11,7 +9,7 @@
     box-sizing: border-box;
 }
 
-/*──────── プロフィール行 ────────*/
+
 .show-profile-section {
     display: flex;
     justify-content: center;
@@ -55,7 +53,7 @@
     color: #facc15;
 }
 
-/*──────── 編集ボタン ────────*/
+
 .show-edit-profile-button {
     padding: 10px 20px;
     font-weight: 700;
@@ -66,7 +64,7 @@
     text-decoration: none;
 }
 
-/*──────── タブ行 ────────*/
+
 .mypage-tab-container {
     display: flex;
     justify-content: center;
@@ -105,7 +103,7 @@
     line-height: 1;
 }
 
-/*──────── 出品/購入/取引グリッド ────────*/
+
 #show-exhibited-items,
 #show-purchased-items,
 #show-trade-items {
@@ -127,7 +125,7 @@
 }
 
 .show-trade-grid {
-    /* 旧 id を使っている場合の保険 */
+ 
     margin-top: 20px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -154,7 +152,7 @@
 .mypage-card img,
 .show-product-image {
     margin-top: 50px;
-    /* 好みで調整：0‑10px 程度 */
+  
 }
 
 .mypage-card-name {
@@ -206,28 +204,23 @@
 
 .mypage-tab-container {
     border-bottom: 2px solid #000;
-    /* 黒線 */
-    padding-bottom: 8px;
-    /* 線とタブ文字の間隔（好みで調整） */
 
-    /* ↓ show‑container が padding:20px 持っている分だけ外へ張り出す */
+    padding-bottom: 8px;
     margin-left: -20px;
     margin-right: -20px;
 }
 
-/* 一覧カード上の赤丸を 6 px 下へ（好みの値で調整） */
+
 .mypage-card .badge-unread {
     top: 50px !important;
-    /* ← 元の 4‥6 あたり → 10 へ。!important で確実に上書き */
+
 }
 
 
-/*──────────────────────────────
-  スマホ (0‑767px)
-──────────────────────────────*/
+
 @media (max-width:767px) {
 
-    /* 画像 3 列 140px */
+   
     #show-exhibited-items,
     #show-purchased-items,
     #show-trade-items {
@@ -243,7 +236,7 @@
         object-fit: cover;
     }
 
-    /* プロフィール縮小 */
+   
     .show-profile-image {
         width: 120px;
         height: 120px;
@@ -254,12 +247,12 @@
         margin: 0 20px 0 10px;
     }
 
-    /* タブ中央寄せ（スマホはそのまま中央） */
+  
     .mypage-tab-container {
         justify-content: center;
     }
 
-    /* 未読バッジをタブ右肩固定 */
+  
     .mypage-tab-button {
         position: relative;
     }
@@ -271,9 +264,7 @@
     }
 }
 
-/*──────────────────────────────
-  タブレット (768‑850px)
-──────────────────────────────*/
+
 @media (min-width:768px) and (max-width:850px) {
 
     .show-profile-section {
@@ -285,12 +276,12 @@
         margin: 0 50px 0 15px;
     }
 
-    /* タブ行の余白微調整 */
+   
     .mypage-tab-container {
         margin: 25px 0 -20px;
     }
 
-    /* 画像 3 列 200px */
+  
     #show-exhibited-items,
     #show-purchased-items,
     #show-trade-items {
@@ -305,18 +296,59 @@
         height: 200px;
     }
 
-    /* 未読バッジ位置（タブの幅に合わせて右にオフセット） */
+
     .badge-unread-all {
         right: 100px;
     }
+
+   
+        .mypage-tab-container {
+            justify-content: flex-start;
+        
+            padding-left: 12px;
+       
+            flex-wrap: nowrap;
+     
+        }
+    
+        .mypage-tab-button {
+            font-size: 18px;
+         
+            white-space: nowrap;
+          
+        }
+
+           
+                .mypage-tab-container {
+                    position: relative;
+            
+                }
+        
+                .mypage-tab-container::after {
+                    content: "";
+                    position: absolute;
+                    left: 50%;
+               
+                    transform: translateX(-50%);
+              
+                    width: 100vw;
+                
+                    height: 2px;
+                    background: #000;
+                    bottom: -8px;
+                  
+                }
+        
+               
+                .mypage-tab-container {
+                    border-bottom: none;
+                }
 }
 
-/*──────────────────────────────
-  PC (851px〜) - 基本レイアウトをそのまま使用
-──────────────────────────────*/
+
 @media (min-width:851px) {
 
-    /* タブは中央寄せのまま。未読バッジを文字の右に寄せるだけ */
+
     .mypage-tab-button {
         position: relative;
     }
@@ -327,3 +359,4 @@
         top: -4px;
     }
 }
+

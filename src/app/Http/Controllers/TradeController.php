@@ -3,25 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ChatMessageRequest;
-use App\Models\{Trade, Rating, Message};
+use App\Mail\TradeCompleted;
+use App\Models\{Trade, Rating};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Message;
 
 class TradeController extends Controller
 {
-    /* ─────────────────────────────── ① 取引一覧 ─────────────────────────────── */
     public function index()
     {
-        $me = Auth::user();
+        $user = Auth::user();
 
         $trades = Trade::where(fn ($q) => $q
-                                ->where('seller_id', $me->id)
-                                ->orWhere('buyer_id',  $me->id))
+                                ->where('seller_id', $user->id)
+                                ->orWhere('buyer_id',  $user->id))
                        ->with('product')
                        ->withCount([
+
                            'messages as unread_count' => fn ($q) => $q
-                               ->where('user_id', '!=', $me->id)
+                               ->where('user_id', '!=', $user->id)
                                ->where('is_read', false),
                        ])
                        ->latest('updated_at')
@@ -30,42 +32,34 @@ class TradeController extends Controller
         return view('trades.list', compact('trades'));
     }
 
-    /* ─────────────────────────────── ② チャット画面 ─────────────────────────────── */
     public function chat(Trade $trade)
     {
-        abort_unless($trade->isParticipant(Auth::id()), 403);              // 当事者のみ
+        abort_if(! $trade->isParticipant(Auth::id()), 403);
 
-        $messages = $trade->messages()->with('user')->oldest()->get();     // 古→新
+        $messages = $trade->messages()
+                          ->with('user')
+                          ->latest()
+                          ->get();
 
-        /* 未読 → 既読 */
         $trade->messages()
               ->where('user_id', '!=', Auth::id())
               ->where('is_read', false)
               ->update(['is_read' => true]);
 
-        /* サイドバー用取引リスト */
-        $sidebarTrades = Trade::where(fn ($q) => $q
-                                    ->where('seller_id', Auth::id())
-                                    ->orWhere('buyer_id',  Auth::id()))
-                              ->where('status', 'progress')
-                              ->with('product')
-                              ->withCount([
-                                  'messages as unread_count' => fn ($q) => $q
-                                      ->where('user_id', '!=', Auth::id())
-                                      ->where('is_read', false),
-                              ])
-                              ->latest('updated_at')
-                              ->get();
+        $sidebarTrades = Auth::user()
+            ->tradesAsSeller()
+            ->get()
+            ->merge(Auth::user()->tradesAsBuyer)
+            ->sortByDesc('updated_at');
 
         return view('trades.chat', compact('trade', 'messages', 'sidebarTrades'));
     }
 
-    /* ─────────────────────────────── ③ メッセージ投稿 ─────────────────────────────── */
     public function storeMessage(ChatMessageRequest $req, Trade $trade)
     {
-        $path = $req->file('image')
-              ? $req->file('image')->store('chat', 'public')
-              : null;
+        $path = $req->hasFile('image')
+                ? $req->file('image')->store('chat', 'public')
+                : null;
 
         $trade->messages()->create([
             'user_id' => Auth::id(),
@@ -76,21 +70,18 @@ class TradeController extends Controller
         return back();
     }
 
-    /*──────────────────────────────────────────
-  ④ 取引完了 & 評価送信
-──────────────────────────────────────────*/
-public function complete(Request $req, Trade $trade)
-{
-    $req->validate([
-        'score' => ['required','integer','between:1,5'],
-        'body'  => ['nullable','string','max:255'],
-    ]);
+    public function complete(Request $req, Trade $trade)
+    {
+        $req->validate([
+            'score' => ['required', 'integer', 'between:1,5'],
+            'body'  => ['nullable', 'string', 'max:255'],
+        ]);
 
-    DB::transaction(function () use ($req, $trade) {
-
-        /* 1) 評価を保存（1取引・1人1件） */
         Rating::updateOrCreate(
-            ['trade_id' => $trade->id,'rater_id' => Auth::id()],
+            [
+                'trade_id' => $trade->id,
+                'rater_id' => Auth::id(),
+            ],
             [
                 'ratee_id' => $trade->opponent(Auth::id())->id,
                 'score'    => $req->score,
@@ -98,65 +89,58 @@ public function complete(Request $req, Trade $trade)
             ]
         );
 
-        /* 2) 買い手が初めて完了したときだけ商品を確定 */
-        if (!$trade->product->is_sold && Auth::id() === $trade->buyer_id) {
-            $trade->product->update([
-                'buyer_id'     => $trade->buyer_id,
-                'is_sold'      => true,
-                'purchased_at' => now(),
-            ]);
+        $trade->update(['status' => 'done']);
+
+        if (Auth::id() === $trade->buyer_id) {
+            Mail::to($trade->seller->email)
+                ->send(new TradeCompleted($trade));
         }
 
-        /* 3) 両者が評価済みなら status=done にする */
-        $ratedCount = $trade->ratings()->count();      // max 2
-        if ($ratedCount === 2) {
-            $trade->update(['status' => 'done']);
-        } else {
-            // まだ片方だけ ⇒ progress のまま残す
-            // もしすでに done になっていたら巻き戻す必要は無い
-        }
-    });
+        return redirect()
+               ->route('trades.index')
+               ->with('success', '取引を完了しました');
+    }
 
-    return redirect('/')
-        ->with('success', '評価を送信しました。取引が完了しました。');
-}
-
-
-
-    /* ─────────────────────────────── ⑤ メッセージ編集 ─────────────────────────────── */
-    public function editMessage(Trade $trade, Message $message)
+    function editMessage(Trade $trade, Message $message)
     {
-        abort_if($message->trade_id !== $trade->id || $message->user_id !== Auth::id(), 403);
+        if ($message->trade_id !== $trade->id || $message->user_id !== Auth::id()) {
+            abort(403);
+        }
         return view('trades.edit_message', compact('trade', 'message'));
     }
 
-    public function updateMessage(Request $req, Trade $trade, Message $message)
+    public function updateMessage(Request $request, Trade $trade, Message $message)
     {
-        abort_if($message->trade_id !== $trade->id || $message->user_id !== Auth::id(), 403);
+        if ($message->trade_id !== $trade->id || $message->user_id !== Auth::id()) {
+            abort(403);
+        }
 
-        $data = $req->validate([
+        $data = $request->validate([
             'body'  => 'required|string|max:400',
             'image' => 'nullable|image|mimes:jpeg,png,jpg',
         ]);
 
         $message->body = $data['body'];
-
-        if ($req->hasFile('image')) {
-            $message->image = $req->file('image')->store('messages', 'public');
+        if ($request->hasFile('image')) {
+            $message->image = $request->file('image')->store('messages', 'public');
         }
         $message->save();
 
-        return redirect()->route('trades.chat', $trade)
-                         ->with('success', 'メッセージを更新しました');
+        return redirect()
+            ->route('trades.chat', $trade)
+            ->with('success', 'メッセージを更新しました');
     }
 
-    /* ─────────────────────────────── ⑥ メッセージ削除 ─────────────────────────────── */
     public function destroyMessage(Trade $trade, Message $message)
     {
-        abort_if($message->trade_id !== $trade->id || $message->user_id !== Auth::id(), 403);
+        if ($message->trade_id !== $trade->id || $message->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $message->delete();
 
-        return redirect()->route('trades.chat', $trade)
-                         ->with('success', 'メッセージを削除しました');
+        return redirect()
+            ->route('trades.chat', $trade)
+            ->with('success', 'メッセージを削除しました');
     }
 }

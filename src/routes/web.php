@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase/{product}', [PurchaseController::class, 'purchase'])->whereNumber('product')->name('purchase');
 
     /* ――― コメント & いいね ――― */
-    Route::post('/comment',     [CommentController::class, 'store'])->name('comment.store');
+    Route::post('/comment',     [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
     Route::post('/like/toggle', [LikeController::class,   'toggle'])->name('like.toggle');
 
     /* ───── 取引関連 ───── */

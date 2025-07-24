@@ -9,37 +9,31 @@ use App\Models\{Product, Comment};
 
 class CommentController extends Controller
 {
-    /** --------------------------------------------------------------
-     *  商品ページのコメント投稿
-     *  -------------------------------------------------------------- */
-    public function store(Request $request, Product $product)
+    
+    public function store(Request $request)
     {
-        /* --- バリデーション --- */
+    
         $data = $request->validate([
-            'body'  => 'required|string|max:400',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png',
+            'product_id' => ['required', 'exists:products,id'],
+            'body'       => ['required', 'string', 'max:400'],
+            'image'      => ['nullable', 'image', 'mimes:jpg,jpeg,png'],
         ]);
 
-        /* --- 画像保存（あれば） --- */
+      
         $path = $request->file('image')
-              ? $request->file('image')->store('comment', 'public')
-              : null;
+                ? $request->file('image')->store('comment', 'public')
+                : null;
 
-        /* --- コメント保存 --- */
+       
         $comment = Comment::create([
-            'product_id' => $product->id,
+            'product_id' => $data['product_id'],
             'user_id'    => Auth::id(),
             'body'       => $data['body'],
             'image'      => $path,
-        ])->load('user');   // user を即ロード
+        ])->load('user');    
 
-        /* ---------- ここから下は “チャット連携” を削除 ---------- */
-        // ・Trade::firstOrCreate … も
-        // ・$trade->messages()->create … も全部取り除く
-        /* --------------------------------------------------------- */
-
-        /* --- レスポンス --- */
-        if ($request->wantsJson()) {          // Ajax (fetch) のとき
+   
+        if ($request->wantsJson()) {        
             $avatar = $comment->user->profile_image
                    ? Storage::disk('public')->url($comment->user->profile_image)
                    : asset('images/default-user.png');

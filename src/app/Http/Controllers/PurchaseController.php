@@ -10,49 +10,47 @@ use Illuminate\Support\Facades\Auth;
 
 class PurchaseController extends Controller
 {
-    /*------------------------------------------------------------
-     | ① 購入ボタン（＝取引開始）
-     *-----------------------------------------------------------*/
+    
     public function purchase(Request $request, Product $product)
-    {
-        // 1) 取引レコードを progress で生成 or 取得
-        $trade = Trade::firstOrCreate(
-            ['product_id' => $product->id],
-            [
-                'buyer_id'  => Auth::id(),
-                'seller_id' => $product->user_id,
-                'status'    => 'progress',
-            ]
-        );
+{
 
-        // 2) チャット画面へ遷移（商品はまだ未購入状態）
-        return redirect()
-            ->route('trades.chat', $trade)
-            ->with('success', '取引チャットを開始しました。');
-    }
+    $product->update([
+        'buyer_id'     => $request->user()->id,
+        'is_sold'      => true,
+        'purchased_at' => now(),
+    ]);
 
-    /*------------------------------------------------------------
-     | ② 購入画面（PG06）
-     *-----------------------------------------------------------*/
+   
+    $trade = Trade::firstOrCreate(
+        ['product_id' => $product->id],
+        [
+            'buyer_id'  => $request->user()->id,
+            'seller_id' => $product->user_id,
+            'status'    => 'progress',
+        ]
+    );
+
+  
+    return redirect()->route('trades.chat', $trade);
+}
+
+
+    
     public function showPurchaseForm($id)
     {
         $product = Product::findOrFail($id);
-        $address = Auth::user()->userAddress()->first();   // 1:1
+        $address = Auth::user()->userAddress()->first();   
         return view('purchase.form', compact('product', 'address'));
     }
 
-    /*------------------------------------------------------------
-     | ③ 送付先住所入力（PG07）
-     *-----------------------------------------------------------*/
+ 
     public function showAddressForm()
     {
-        $address = Auth::user()->userAddress;              // null 可
+        $address = Auth::user()->userAddress;           
         return view('purchase.shipping', compact('address'));
     }
 
-    /*------------------------------------------------------------
-     | ④ 住所保存
-     *-----------------------------------------------------------*/
+
     public function updateAddress(AddressRequest $request)
     {
         Auth::user()->userAddress()

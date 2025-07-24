@@ -27,7 +27,7 @@ class PurchaseTest extends TestCase
 
         $this->actingAs($buyer);
         $response = $this->post("/purchase/{$product->id}");
-        $response->assertRedirect(route('profile.show'));
+        $response->assertRedirect(route('trades.chat', 1));
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
             'buyer_id' => $buyer->id,
