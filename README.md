@@ -1,12 +1,15 @@
-<img width="3453" height="2847" alt="image" src="https://github.com/user-attachments/assets/7d79ecef-d21c-4b34-83d7-ccfbacaca99a" />## 🛠️ 環境構築
+<img width="3453" height="2847" alt="image" src="https://github.com/user-attachments/assets/7d79ecef-d21c-4b34-83d7-ccfbacaca99a" />
 
-```bash
+────────────────────────────
+■ 環境構築
+────────────────────────────
+
 # 1. clone
 git clone git@github.com:haru268/fleamarketapp01.git
 cd fleamarketapp01
 
 # 2. 環境ファイル
-cp .env.example .env         # DB パスワード等を必要に応じて編集
+cp .env.example .env  
 
 # 3. Docker
 docker-compose up -d --build
@@ -28,7 +31,6 @@ phpMyAdmin → http://localhost:8080
 トップ（商品一覧）	http://localhost/
 ユーザー登録	http://localhost/register
 ログイン	http://localhost/login
-送付先住所変更	http://localhost/purchase/shipping
 Mailhog	http://localhost:8025
 phpMyAdmin	http://localhost:8080
 
@@ -50,12 +52,10 @@ docker-compose exec php php artisan test
 
 
 
- Seeder 概要
+#　Seeder 概要
 UsersTableSeeder … ユーザー3名
 
 ProductsTableSeeder … 課題指定 10 商品 (CO01–CO10)
-
-画像は storage/app/seed_items/*.jpg を参照
 
 php artisan migrate:fresh --seed で再現可能
 
@@ -65,7 +65,7 @@ php artisan migrate:fresh --seed で再現可能
 ■ 使用技術
 ────────────────────────────
 
-PHP 8.2.27 / Laravel 8.83.29 / MySQL 8.0.26 / Docker / Fortify / PHPUnit
+PHP 7.4.9 / Laravel 8.83.29 / MySQL 8.0.26 / Docker / Fortify / PHPUnit
 
 ────────────────────────────
 ■ ER 図
