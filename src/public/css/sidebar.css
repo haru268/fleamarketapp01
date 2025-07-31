@@ -59,13 +59,13 @@
     border-radius: 50%
 }
 
-/*──────── メイン ────────*/
+
 .trade-main {
     flex: 1 1 auto;
     padding: 16px 24px
 }
 
-/* ヘッダー */
+
 .trade-header {
     display: flex;
     justify-content: space-between;
@@ -252,16 +252,14 @@
     height: 24px
 }
 
-/* モバイル：サイドバー非表示 */
+
 @media(max-width:767px) {
     .trade-sidebar {
         display: none
     }
 }
 
-/*────────────────────────────────────
-  評価モーダル（中央固定）
-────────────────────────────────────*/
+
 .modal {
     position: fixed;
     inset: 0;
@@ -300,17 +298,17 @@
     margin: -2px 0 -14px;
 }
 
-/* 評価モーダルの★レイアウト（中央寄せ） */
+
 .stars {
     display: flex;
-    /* ← inline‑flex → flex に変更 */
+   
     justify-content: center;
-    /* 横方向中央 */
+   
     width: 100%;
-    /* 行全体を使う＝中央寄せが効く */
+  
     gap: 0px;
     margin-top: -10px;
-    /* 見出しとの余白（任意） */
+    
 }
 
 .stars label {
@@ -345,12 +343,12 @@
     font-weight: 700;
 }
 
-/* --- 画像が常に見えるようにする --- */
+
 .chat-bubble {
     overflow: visible !important;
-    /* 画像を隠さない */
+    
     min-width: 120px;
-    /* 本文が空でも幅ゼロにしない */
+   
 }
 
 .msg-img {
@@ -361,19 +359,19 @@
     border-radius: 4px;
 }
 
-/* 画像プレビューをフォームでも同じ見た目に（既存 .msg-img と同じ） */
+
 #preview {
-    /* --- add --- */
+  
     max-width: 200px;
     height: auto;
     margin-top: 8px;
     border-radius: 4px;
 }
 
-/* バリデーションエラーを確実に赤に */
+
 .alert-error {
-    /* --- modify --- */
+  
     color: #e11d48 !important;
-    /* 上書き防止フラグ */
+  
     font-weight: 700;
 }

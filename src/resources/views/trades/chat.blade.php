@@ -154,7 +154,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* 0) メッセージ下書きを localStorage に保存 */
+
     const key = 'draft-{{ $trade->id }}';
     const ta  = document.querySelector('textarea[name="body"]');
     if (ta) {
@@ -164,14 +164,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 .addEventListener('submit', () => localStorage.removeItem(key));
     }
 
-    /* 1) モーダル開閉 */
     const openBtn = document.getElementById('openRatingModal');
     const modal   = document.getElementById('ratingModal');
     if (openBtn && modal){
         openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
     }
 
-    /* 2) ★ 着色 */
+
     const labels = document.querySelectorAll('.stars label');
     document.querySelectorAll('input[name="score"]').forEach(radio => {
         radio.addEventListener('change', e => {
@@ -182,20 +181,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* 3) 画像プレビュー ---------------------------------- */
-    const input  = document.getElementById('imageInput');   /* --- add --- */
-    const prev   = document.getElementById('preview');      /* --- add --- */
-    if (input && prev) {                                    /* --- add --- */
-        input.addEventListener('change', e => {             /* --- add --- */
-            const file = e.target.files[0];                 /* --- add --- */
-            if (file) {                                     /* --- add --- */
-                prev.src = URL.createObjectURL(file);       /* --- add --- */
-                prev.style.display = 'block';               /* --- add --- */
-            } else {                                        /* --- add --- */
-                prev.style.display = 'none';                /* --- add --- */
-            }                                               /* --- add --- */
-        });                                                 /* --- add --- */
-    }                                                       /* --- add --- */
+    
+    const input  = document.getElementById('imageInput');   
+    const prev   = document.getElementById('preview');     
+    if (input && prev) {                                   
+        input.addEventListener('change', e => {             
+            const file = e.target.files[0];                
+            if (file) {                                     
+                prev.src = URL.createObjectURL(file);       
+                prev.style.display = 'block';              
+            } else {                                        
+                prev.style.display = 'none';                
+            }                                               
+        });                                                
+    }                                                      
 });
 </script>
 @endpush
