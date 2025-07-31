@@ -2,6 +2,7 @@
 @extends('layouts.main_layout')
 
 @push('styles')
+    {{-- サイドバーやチャット用のスタイル --}}
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
 @endpush
 
@@ -16,10 +17,9 @@
             <a href="{{ route('trades.chat', $t) }}"
                class="trade-sidebar__item {{ $active ? 'is-active' : '' }}">
                 <span class="trade-sidebar__name">{{ Str::limit($t->product->name, 18) }}</span>
-
                 @if ($t->unread_count)
-                    <span class="badge-unread">{{ $t->unread_count }}</span>
-                @endif
+     <span class="badge-unread-side">{{ $t->unread_count }}</span>
+ @endif
             </a>
         @endforeach
     </aside>
@@ -27,15 +27,14 @@
     {{--──────── メイン ────────--}}
     <section class="trade-main">
 
-        {{-- ★ 取引相手が評価を付けたか判定 --}}
+        {{-- ★ 相手評価状況でモーダル表示を決定 --}}
         @php
             $buyerRated  = $trade->ratings()->where('rater_id', $trade->buyer_id)->exists();
             $sellerRated = $trade->ratings()->where('rater_id', $trade->seller_id)->exists();
 
-            /* モーダルを出す条件
-               ─────────────────────────────
-               1) 買い手   … 自分が未評価
-               2) 出品者   … 買い手が評価済み かつ 自分が未評価
+            /* 条件
+               1) 買い手  … 自分が未評価
+               2) 出品者  … 買い手が評価済 & 自分が未評価
             */
             $showRatingModal =
                 (auth()->id() === $trade->buyer_id  && !$buyerRated) ||
@@ -49,7 +48,7 @@
                 <h2>「{{ optional($otherUser)->name ?? '（相手未定）' }}」 さんとの取引画面</h2>
             </div>
 
-            {{-- 取引完了ボタン（買い手が未評価のときだけ表示） --}}
+            {{-- 買い手だけに表示する “取引完了” ボタン --}}
             @if (auth()->id() === $trade->buyer_id && !$buyerRated && $trade->status === 'progress')
                 <button id="openRatingModal" class="btn-complete">取引を完了する</button>
             @endif
@@ -74,13 +73,15 @@
                         <span class="msg-name">{{ $msg->user->name }}</span>
                     </div>
 
+                    {{-- 本文 & 画像（本文が空なら &nbsp; を入れて幅ゼロ回避） --}}
                     <div class="chat-bubble {{ $mine ? 'me' : '' }}">
-                        {!! nl2br(e($msg->body)) !!}
+                        {!! $msg->body !== '' ? nl2br(e($msg->body)) : '&nbsp;' !!}
                         @if ($msg->image)
                             <img src="{{ Storage::url($msg->image) }}" class="msg-img" alt="">
                         @endif
                     </div>
 
+                    {{-- 自分のメッセージだけ編集・削除 --}}
                     @if ($mine)
                         <div class="msg-action-area">
                             <form action="{{ route('trades.messages.edit', [$trade,$msg]) }}" method="GET">
@@ -96,13 +97,26 @@
         </div>
 
         {{-- ④ 送信フォーム --}}
-        <form class="msg-form" action="{{ route('trades.messages.store',$trade) }}"
+        {{-- バリデーションエラー --}}
+        @if ($errors->any())
+            <div class="alert-error">
+                @foreach ($errors->all() as $err)
+                    <p>{{ $err }}</p>
+                @endforeach
+            </div>
+        @endif
+
+        <form class="msg-form" action="{{ route('trades.messages.store', $trade) }}"
               method="POST" enctype="multipart/form-data">
             @csrf
-            <textarea name="body" placeholder="取引メッセージを記入してください" required>{{ old('body') }}</textarea>
+            <textarea name="body" placeholder="取引メッセージを記入してください">{{ old('body') }}</textarea>
+
+            <img id="preview" class="msg-img" style="display:none">
+
             <label class="btn-image">画像を追加
-                <input type="file" name="image" accept="image/*" hidden>
+                <input type="file" name="image" id="imageInput" accept="image/*" hidden>
             </label>
+
             <button class="btn-send">
                 <svg viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg>
             </button>
@@ -114,7 +128,7 @@
 {{--──────── 評価モーダル ────────--}}
 @if ($showRatingModal)
 <div id="ratingModal"
-     class="modal {{ auth()->id()===$trade->buyer_id ? 'hidden' : '' }}">
+     class="modal {{ auth()->id() === $trade->buyer_id ? 'hidden' : '' }}">
     <div class="modal-card">
         <h3 class="modal-title">取引が完了しました。</h3>
         <p class="modal-sub">今回の取引相手はどうでしたか？</p>
@@ -139,14 +153,25 @@
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // モーダル開閉（購入者ボタン → モーダル）
+
+    /* 0) メッセージ下書きを localStorage に保存 */
+    const key = 'draft-{{ $trade->id }}';
+    const ta  = document.querySelector('textarea[name="body"]');
+    if (ta) {
+        ta.value = localStorage.getItem(key) ?? '';
+        ta.addEventListener('input', e => localStorage.setItem(key, e.target.value));
+        document.querySelector('.msg-form')
+                .addEventListener('submit', () => localStorage.removeItem(key));
+    }
+
+    /* 1) モーダル開閉 */
     const openBtn = document.getElementById('openRatingModal');
     const modal   = document.getElementById('ratingModal');
     if (openBtn && modal){
         openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
     }
 
-    // 星の着色
+    /* 2) ★ 着色 */
     const labels = document.querySelectorAll('.stars label');
     document.querySelectorAll('input[name="score"]').forEach(radio => {
         radio.addEventListener('change', e => {
@@ -156,6 +181,21 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    /* 3) 画像プレビュー ---------------------------------- */
+    const input  = document.getElementById('imageInput');   /* --- add --- */
+    const prev   = document.getElementById('preview');      /* --- add --- */
+    if (input && prev) {                                    /* --- add --- */
+        input.addEventListener('change', e => {             /* --- add --- */
+            const file = e.target.files[0];                 /* --- add --- */
+            if (file) {                                     /* --- add --- */
+                prev.src = URL.createObjectURL(file);       /* --- add --- */
+                prev.style.display = 'block';               /* --- add --- */
+            } else {                                        /* --- add --- */
+                prev.style.display = 'none';                /* --- add --- */
+            }                                               /* --- add --- */
+        });                                                 /* --- add --- */
+    }                                                       /* --- add --- */
 });
 </script>
 @endpush

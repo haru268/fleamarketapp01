@@ -42,10 +42,10 @@
 }
 
 
-.badge-unread {
+.badge-unread-side {
     position: absolute;
     top: 6px;
-    right: 190px;
+    right: 4px;
 
     display: inline-flex;
     justify-content: center;
@@ -338,4 +338,42 @@
     border-radius: 6px;
     border: none;
     cursor: pointer
+}
+
+.alert-error {
+    color: #e11d48;
+    font-weight: 700;
+}
+
+/* --- 画像が常に見えるようにする --- */
+.chat-bubble {
+    overflow: visible !important;
+    /* 画像を隠さない */
+    min-width: 120px;
+    /* 本文が空でも幅ゼロにしない */
+}
+
+.msg-img {
+    display: block !important;
+    max-width: 220px;
+    height: auto;
+    margin-top: 8px;
+    border-radius: 4px;
+}
+
+/* 画像プレビューをフォームでも同じ見た目に（既存 .msg-img と同じ） */
+#preview {
+    /* --- add --- */
+    max-width: 200px;
+    height: auto;
+    margin-top: 8px;
+    border-radius: 4px;
+}
+
+/* バリデーションエラーを確実に赤に */
+.alert-error {
+    /* --- modify --- */
+    color: #e11d48 !important;
+    /* 上書き防止フラグ */
+    font-weight: 700;
 }

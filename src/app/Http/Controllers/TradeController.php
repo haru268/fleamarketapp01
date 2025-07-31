@@ -56,19 +56,26 @@ class TradeController extends Controller
     }
 
     public function storeMessage(ChatMessageRequest $req, Trade $trade)
-    {
-        $path = $req->hasFile('image')
-                ? $req->file('image')->store('chat', 'public')
-                : null;
-
-        $trade->messages()->create([
-            'user_id' => Auth::id(),
-            'body'    => $req->body,
-            'image'   => $path,
-        ]);
-
-        return back();
+{
+    /* ▼ body も image も無い時だけ手動エラー */
+    if (empty($req->body) && !$req->file('image')) {
+        return back()
+            ->withErrors(['body' => '本文を入力してください'])
+            ->withInput();
     }
+
+    $path = $req->file('image')
+            ? $req->file('image')->store('chat', 'public')
+            : null;
+
+    $trade->messages()->create([
+        'user_id' => Auth::id(),
+        'body'    => $req->body ?: '',   // 空文字なら &nbsp; を入れるので OK
+        'image'   => $path,
+    ]);
+
+    return back();
+}
 
     public function complete(Request $req, Trade $trade)
     {

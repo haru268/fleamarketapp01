@@ -28,4 +28,11 @@ class Message extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected static function booted()
+{
+    static::created(function (Message $msg) {
+        $msg->trade->touch();
+    });
+}
 }
