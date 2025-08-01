@@ -26,6 +26,11 @@
   {{--──────── メイン ────────--}}
   <section class="trade-main">
 
+      {{-- ★ モーダル表示フラグは Controller で計算済み --}}
+      @php
+          $buyerRated  = $trade->ratings()->where('rater_id', $trade->buyer_id )->exists();
+      @endphp
+
       {{-- ① ヘッダー --}}
       <header class="trade-header">
           <div class="trade-header__user">
@@ -33,8 +38,8 @@
               <h2>「{{ optional($otherUser)->name ?? '（相手未定）' }}」 さんとの取引画面</h2>
           </div>
 
-          {{-- 取引完了（買い手のみ表示 / 自分未評価） --}}
-          @if (auth()->id()===$trade->buyer_id && !$trade->ratings->where('rater_id',$trade->buyer_id)->count() && $trade->status==='progress')
+          {{-- 購入者だけに表示する “取引完了” ボタン --}}
+          @if (auth()->id() === $trade->buyer_id && !$buyerRated && $trade->status === 'progress')
               <button id="openRatingModal" class="btn-complete">取引を完了する</button>
           @endif
       </header>
@@ -59,7 +64,7 @@
                   </div>
 
                   <div class="chat-bubble {{ $mine ? 'me' : '' }}">
-                      {!! $msg->body!=='' ? nl2br(e($msg->body)) : '&nbsp;' !!}
+                      {!! $msg->body !== '' ? nl2br(e($msg->body)) : '&nbsp;' !!}
                       @if ($msg->image)
                           <img src="{{ Storage::url($msg->image) }}" class="msg-img" alt="">
                       @endif
@@ -109,7 +114,8 @@
 
 {{--──────── 評価モーダル ────────--}}
 @if ($showRatingModal)
-<div id="ratingModal" class="modal {{ auth()->id()===$trade->buyer_id ? 'hidden' : '' }}">
+<div id="ratingModal"
+     class="modal {{ auth()->id()===$trade->buyer_id ? 'hidden' : '' }}">
   <div class="modal-card">
       <h3 class="modal-title">取引が完了しました。</h3>
       <p class="modal-sub">今回の取引相手はどうでしたか？</p>
@@ -117,7 +123,7 @@
       <form method="POST" action="{{ route('trades.complete',$trade) }}">
           @csrf
           <div class="stars">
-              @for ($i=1; $i<=5; $i++)
+              @for ($i = 1; $i <= 5; $i++)
                   <input type="radio" id="star{{ $i }}" name="score" value="{{ $i }}" hidden>
                   <label for="star{{ $i }}">★</label>
               @endfor
@@ -133,43 +139,49 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded',()=>{
+document.addEventListener('DOMContentLoaded', () => {
 
   /* 下書き保存 */
-  const key='draft-{{ $trade->id }}';
-  const ta=document.querySelector('textarea[name="body"]');
-  if(ta){
-    ta.value=localStorage.getItem(key)??'';
-    ta.addEventListener('input',e=>localStorage.setItem(key,e.target.value));
-    document.querySelector('.msg-form')
-            .addEventListener('submit',()=>localStorage.removeItem(key));
+  const key = 'draft-{{ $trade->id }}';
+  const ta  = document.querySelector('textarea[name="body"]');
+  if (ta) {
+      ta.value = localStorage.getItem(key) ?? '';
+      ta.addEventListener('input', e => localStorage.setItem(key, e.target.value));
+      document.querySelector('.msg-form')
+              .addEventListener('submit', () => localStorage.removeItem(key));
   }
 
   /* モーダル開閉 */
-  const openBtn=document.getElementById('openRatingModal');
-  const modal  =document.getElementById('ratingModal');
-  if(openBtn&&modal){ openBtn.addEventListener('click',()=>modal.classList.remove('hidden')); }
+  const openBtn = document.getElementById('openRatingModal');
+  const modal   = document.getElementById('ratingModal');
+  if (openBtn && modal){
+      openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+  }
 
   /* ★ 着色 */
-  const labels=document.querySelectorAll('.stars label');
-  document.querySelectorAll('input[name="score"]').forEach(radio=>{
-    radio.addEventListener('change',e=>{
-      const val=parseInt(e.target.value,10);
-      labels.forEach((lb,i)=>lb.style.color=i<val?'#facc15':'#d1d5db');
-    });
+  const labels = document.querySelectorAll('.stars label');
+  document.querySelectorAll('input[name="score"]').forEach(radio => {
+      radio.addEventListener('change', e => {
+          const val = parseInt(e.target.value, 10);
+          labels.forEach((lb, i) => {
+              lb.style.color = i < val ? '#facc15' : '#d1d5db';
+          });
+      });
   });
 
   /* 画像プレビュー */
-  const input=document.getElementById('imageInput');
-  const prev =document.getElementById('preview');
-  if(input&&prev){
-    input.addEventListener('change',e=>{
-      const file=e.target.files[0];
-      if(file){
-        prev.src=URL.createObjectURL(file);
-        prev.style.display='block';
-      }else{ prev.style.display='none'; }
-    });
+  const input = document.getElementById('imageInput');
+  const prev  = document.getElementById('preview');
+  if (input && prev){
+      input.addEventListener('change', e => {
+          const file = e.target.files[0];
+          if (file){
+              prev.src = URL.createObjectURL(file);
+              prev.style.display = 'block';
+          }else{
+              prev.style.display = 'none';
+          }
+      });
   }
 });
 </script>

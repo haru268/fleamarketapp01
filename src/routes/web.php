@@ -17,6 +17,7 @@ use App\Http\Controllers\ItemController;
 /* 取引関連 */
 use App\Http\Controllers\TradeController;          // 一覧・完了・メッセージ CRUD
 use App\Http\Controllers\TradeChatController;      // チャット画面（＊New）
+use App\Http\Controllers\TradeCompleteController;
 
 /* ───────────────────────────────
 |  公開ページ
@@ -77,10 +78,10 @@ Route::middleware('auth')->group(function () {
         ->whereNumber('trade')
         ->name('trades.messages.store');
 
-    // 取引完了 & 評価送信
-    Route::post('/trades/{trade}/complete', [TradeController::class, 'complete'])
-        ->whereNumber('trade')
-        ->name('trades.complete');
+    Route::post('/trades/{trade}/complete',
+            [TradeCompleteController::class, 'store'])   // ← コントローラ / メソッドを変更
+     ->whereNumber('trade')
+     ->name('trades.complete');
 
     // メッセージ編集・更新・削除
     Route::get   ('/trades/{trade}/messages/{message}/edit',   [TradeController::class, 'editMessage'])
