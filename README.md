@@ -5,6 +5,7 @@
 1. clone
 
 git clone git@github.com:haru268/fleamarketapp01.git
+
 cd fleamarketapp01
 
 2. 環境ファイル
@@ -25,10 +26,26 @@ docker-compose exec php php artisan key:generate
 
 docker-compose exec php php artisan migrate:fresh --seed
 
+5‑A. Storage リンク（画像 404 防止）
+
+docker-compose exec php php artisan storage:link
+
 
 Mailhog でメール確認 → http://localhost:8025
 
 phpMyAdmin → http://localhost:8080
+
+────────────────────────────
+■ フロントアセットのビルド（Tailwind, Sass, Vue などを利用している場合のみ）
+────────────────────────────
+
+docker-compose exec php npm install        # 依存インストール
+
+docker-compose exec php npm run dev        # 開発用ビルド
+
+本番環境では
+
+docker-compose exec php npm run build
 
 ────────────────────────────
 ■ 主要 URL 一覧
