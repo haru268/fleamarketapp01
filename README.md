@@ -95,5 +95,3 @@ PHP 7.4.9 / Laravel 8.83.29 / MySQL 8.0.26 / Docker / Fortify / PHPUnit
 ────────────────────────────
 <img width="3453" height="2847" alt="image" src="https://github.com/user-attachments/assets/7d79ecef-d21c-4b34-83d7-ccfbacaca99a" />
 
-![ER 図](docs/er.png)
-
